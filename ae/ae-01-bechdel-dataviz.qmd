@@ -345,8 +345,8 @@ Create side-by-side box plots of `roi` by `clean_test` where the boxes are color
 
 ```{r}
 #| label: roi-zoom
-
-# add code here
+ggplot(bechdel, aes(x = clean_test, y = roi, color = binary)) + 
+  geom_boxplot()
 ```
 
 What are those movies with *very* high returns on investment?
@@ -359,12 +359,15 @@ bechdel |>
 
 ### Step 2 - Demo
 
-Expand on your plot from the previous step to zoom in on movies with `roi < ___` to get a better view of how the medians across the categories compare.
+Expand on your plot from the previous step to zoom in on movies with `roi < 100` to get a better view of how the medians across the categories compare.
 
 ```{r}
 #| label: roi-test-zoom
 
-# add code here
+bechdel |> 
+  filter(roi < 100) |>
+  ggplot(aes(x = clean_test, y = roi, color = binary)) + 
+  geom_boxplot()
 ```
 
 What does this plot say about return-on-investment on movies that pass the Bechdel test?
