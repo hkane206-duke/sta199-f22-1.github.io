@@ -55,20 +55,20 @@ We can use the `glimpse` function to get an overview (or "glimpse") of the data.
 ```{r}
 #| label: glimpse
 
-# add code here
+glimpse(bechdel)
 ```
 
 -   What does each observation (row) in the data set represent?
 
-Each observation represents a **\_\_\_**.
+Each observation represents a **movie**.
 
--   How many observations (rows) are in the data set?
+-   How many observations (rows) are in the data set? **1615**
 
 There are `r nrow(bechdel)` movies in the dataset.
 
 -   How many variables (columns) are in the data set?
 
-There are `___` columns in the dataset.
+There are `r ncol(bechdel)` columns in the dataset.
 
 ### Variables of interest
 
@@ -164,9 +164,9 @@ ggplot(bechdel,
        aes(x = budget_2013, y = gross_2013))+
   geom_point(color = "deepskyblue3") + 
   labs(
-    x = "___", 
-    y = "___", 
-    title = "___"
+    x = "Budget 2013", 
+    y = "Gross 2013", 
+    title = "Gross vs Budget in 2013"
     )
 ```
 
@@ -187,12 +187,12 @@ Modify the plot below, so the `color` of the points is based on the variable `bi
 #| label: plot-aes-color
 
 ggplot(bechdel, 
-       aes(x = budget_2013, y = gross_2013)) +
+       aes(x = budget_2013, y = gross_2013, color = binary)) +
   geom_point() + 
   labs(
     x = "Budget (in 2013 $)", 
     y = "Gross revenue (in 2013 $)", 
-    title = "Gross revenue vs. budget, by ___"
+    title = "Gross revenue vs. budget, by passing/failing Bechdel"
     )
 ```
 
