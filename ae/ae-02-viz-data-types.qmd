@@ -32,7 +32,7 @@ Let's `glimpse()` at it.
 ```{r}
 #| label: glimpse
 
-# add code here
+glimpse(penguins)
 ```
 
 # Visualizing penguin weights - Demo
@@ -50,7 +50,13 @@ Create visualizations of the distribution of `weight`s of penguins.
 ```{r}
 #| label: histogram-weight
 
-# add code here
+ggplot(penguins, aes(x = body_mass_g)) + 
+  geom_histogram(binwidth = 250) + 
+  labs(
+    x = "Weights of Penguins",
+    y = "Counts",
+    title = "Distribution of Penguin Weights"
+  )
 ```
 
 2.  Make a boxplot.
@@ -58,7 +64,11 @@ Create visualizations of the distribution of `weight`s of penguins.
 ```{r}
 #| label: boxplot-weight
 
-# add code here
+ggplot(penguins, aes(x = body_mass_g)) + 
+  geom_boxplot() + 
+  labs(
+    x = "Weights of Penguins",
+    title = "Weights of Penguins")
 ```
 
 3.  Based on these, determine if each of the following statements about the shape of the distribution is true or false.
@@ -78,7 +88,12 @@ Create visualizations of the distribution of `weight`s of penguins by `species`.
 ```{r}
 #| label: histogram-weight-species
 
-# add code here
+ggplot(penguins, aes(x = body_mass_g, fill = species)) + 
+  geom_histogram(binwidth = 250) + 
+  labs(
+    x = "Weights of Penguins",
+    y = "Counts",
+    title = "Distribution of Weights of Penguins by Species")
 ```
 
 5.  Use multiple histograms via faceting, one for each species. Set an appropriate binwidth, add color as you see fit, and turn off legends if not needed.
@@ -86,7 +101,13 @@ Create visualizations of the distribution of `weight`s of penguins by `species`.
 ```{r}
 #| label: histogram-weight-species-facet
 
-# add code here
+ggplot(penguins, aes(x = body_mass_g)) + 
+  geom_histogram(binwidth = 250) + 
+  facet_wrap(~species) + 
+  labs(
+    x = "Weights of Penguins",
+    y = "Counts",
+    title = "Distribution of Weights of Penguins by Species")
 ```
 
 6.  Use side-by-side box plots. Add color as you see fit and turn off legends if not needed.
@@ -94,7 +115,15 @@ Create visualizations of the distribution of `weight`s of penguins by `species`.
 ```{r}
 #| label: boxplot-weight-species
 
-# add code here
+ggplot(penguins, aes(y = body_mass_g, color = species)) + 
+  geom_boxplot() + 
+  facet_wrap(~species) + 
+  labs(
+    y = "Weights of Penguins",
+    title = "Distribution of Weights of Penguins by Species") +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(), 
+        legend.position = "none")
 ```
 
 7.  Use density plots. Add color as you see fit.
@@ -102,7 +131,13 @@ Create visualizations of the distribution of `weight`s of penguins by `species`.
 ```{r}
 #| label: density-weight-species
 
-# add code here
+ggplot(penguins, aes(x = body_mass_g, color = species)) + 
+  geom_density() + 
+  facet_wrap(~species) + 
+  labs(
+    x = "Weights of Penguins",
+    title = "Distribution of Weights of Penguins by Species") +
+  theme(legend.position = "none")
 ```
 
 8.  Use violin plots. Add color as you see fit and turn off legends if not needed.
@@ -110,7 +145,15 @@ Create visualizations of the distribution of `weight`s of penguins by `species`.
 ```{r}
 #| label: violin-weight-species
 
-# add code here
+ggplot(penguins, aes(x = body_mass_g, color = species)) + 
+  geom_violin() + 
+  facet_wrap(~species) + 
+  labs(
+    x = "Weights of Penguins",
+    title = "Distribution of Weights of Penguins by Species") +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(), 
+        legend.position = "none")
 ```
 
 9.  Make a jittered scatter plot. Add color as you see fit and turn off legends if not needed.
