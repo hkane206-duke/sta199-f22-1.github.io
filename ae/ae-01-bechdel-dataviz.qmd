@@ -203,7 +203,13 @@ Expand on your plot from the previous step to make the size of your points based
 ```{r}
 #| label: plot-aes-size
 
-# add code here
+ggplot(bechdel, 
+       aes(x = budget_2013, y = gross_2013, color = binary, size = roi)) + 
+  geom_point() + 
+  labs( 
+    x = "Budget (in 2013 $)", 
+    y = "Gross revenue (in 2013 $)", 
+    title = "Gross revenue vs. budget, by passing/failing Bechdel and ROI" )
 ```
 
 ### Step 5 - Your turn
@@ -213,7 +219,14 @@ Expand on your plot from the previous step to make the transparency (`alpha`) of
 ```{r}
 #| label: plot-aes-alpha
 
-# add code here
+ggplot(bechdel, 
+       aes(x = budget_2013, y = gross_2013, 
+           color = binary, size = roi, alpha = 0.5)) + 
+  geom_point() + 
+  labs( 
+    x = "Budget (in 2013 $)", 
+    y = "Gross revenue (in 2013 $)", 
+    title = "Gross revenue vs. budget, by passing/failing Bechdel and ROI" )
 ```
 
 ### Step 6 - Your turn
@@ -223,7 +236,15 @@ Expand on your plot from the previous step by using `facet_wrap` to display the 
 ```{r}
 #| label: plot-facet-wrap
 
-# add code here
+ggplot(bechdel, 
+       aes(x = budget_2013, y = gross_2013, 
+           color = binary, size = roi, alpha = 0.5)) + 
+  geom_point() + 
+  labs( 
+    x = "Budget (in 2013 $)", 
+    y = "Gross revenue (in 2013 $)", 
+    title = "Gross revenue vs. budget, by passing/failing Bechdel and ROI" ) + 
+  facet_wrap(~clean_test)
 ```
 
 ### Step 7 - Demo
@@ -237,7 +258,19 @@ Make use of the [**scales**](https://scales.r-lib.org/) package, specifically th
 ```{r}
 #| label: plot-scales
 
-# add code here
+ggplot(bechdel, 
+       aes(x = budget_2013, y = gross_2013, 
+           color = binary, size = roi, alpha = 0.5)) + 
+  geom_point() + 
+  labs( 
+    x = "Budget (in 2013 $)", 
+    y = "Gross revenue (in 2013 $)", 
+    title = "Gross revenue vs. budget, by passing/failing Bechdel and ROI" ) + 
+  facet_wrap(~clean_test) + 
+  scale_x_continuous("Budget in 2013", 
+                     breaks = scales::breaks_width(2e+08)) + 
+  scale_y_continuous("Gross Revenue in 2013", 
+                     breaks = scales::breaks_width(1e+09))
 ```
 
 ### Step 8 - Your turn
@@ -248,19 +281,46 @@ Comment on whether this was a useful update.
 ```{r}
 #| label: plot-facet-grid
 
-# add code here
+ggplot(bechdel, 
+       aes(x = budget_2013, y = gross_2013, 
+           color = binary, size = roi, alpha = 0.5)) + 
+  geom_point() + 
+  labs( 
+    x = "Budget (in 2013 $)", 
+    y = "Gross revenue (in 2013 $)", 
+    title = "Gross revenue vs. budget, by passing/failing Bechdel and ROI" ) + 
+  facet_grid(rows = vars(clean_test), cols = vars(binary)) + 
+  scale_x_continuous("Budget in 2013", 
+                     breaks = scales::breaks_width(2e+08)) + 
+  scale_y_continuous("Gross Revenue in 2013", 
+                     breaks = scales::breaks_width(1e+09))
 ```
 
-Add comment here...
+This update wasn't particularly useful because the clean_test variable already separates the data in the way that the binary variable does (PASS = ok, FAIL = everything else).
 
 ### Step 9 - Demo
 
 What other improvements could we make to this plot?
 
-```{r}
+Improvements:
+
+-   Got rid of redundant x/y labels in labs()
+
+-   Changed figure size to get rid of overlap
+
+```{r plot-improve, fig.height = 3, fig.width = 5}
 #| label: plot-improve
 
-# add code here
+ggplot(bechdel, 
+       aes(x = budget_2013, y = gross_2013, 
+           color = binary, size = roi, alpha = 0.5)) + 
+  geom_point() + 
+  labs(title = "Gross revenue vs. Budget, by Binary & ROI") + 
+  facet_wrap(~clean_test) + 
+  scale_x_continuous("Budget in 2013", 
+                     breaks = scales::breaks_width(2e+08)) + 
+  scale_y_continuous("Gross Revenue in 2013", 
+                     breaks = scales::breaks_width(1e+09))
 ```
 
 ### Render, commit, and push
