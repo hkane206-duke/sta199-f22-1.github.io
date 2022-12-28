@@ -185,11 +185,10 @@ ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) +
 #| label: multi-geoms
 
 ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) + 
-  geom_jitter() + geom_violin(aes(alpha = 0.5)) +
+  geom_violin(show.legend = FALSE) + geom_jitter()
   labs(
     x = "Species", y = "Weights of Penguins",
-    title = "Distribution of Weights of Penguins by Species") +
-  theme(legend.position = "none")
+    title = "Distribution of Weights of Penguins by Species")
 ```
 
 ## Multiple variables
@@ -207,9 +206,9 @@ ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) +
   geom_jitter() + geom_violin(aes(alpha = 0.5)) +
   labs(
     x = "Species", y = "Weights of Penguins",
-    title = "Distribution of Weights of Penguins by Species") +
-  theme(legend.position = "none") + 
-  facet(~island)
+    title = "Distribution of Weights of Penguins by Species and Island") +
+  theme(legend.position = "none") +
+  facet_wrap(~island)
 ```
 
 Before you continue, let's turn off all warnings the code chunks generate and resize all figures.
@@ -222,7 +221,12 @@ We'll do this by editing the YAML.
 ```{r}
 #| label: barplot
 
-# add code here
+ggplot(penguins, aes(x = island)) + 
+  geom_bar(show.legend = FALSE) + 
+  labs(
+    x = "Island",
+    title = "Where are Penguins From?"
+  )
 ```
 
 14. Pick two categorical variables and make a visualization to visualize the relationship between the two variables. Along with your code and output, provide an interpretation of the visualization.
@@ -230,7 +234,6 @@ We'll do this by editing the YAML.
 ```{r}
 #| label: cat-cat
 
-# add code here
 ```
 
 Interpretation goes here...
