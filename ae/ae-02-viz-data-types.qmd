@@ -234,14 +234,28 @@ ggplot(penguins, aes(x = island)) +
 ```{r}
 #| label: cat-cat
 
+ggplot(penguins, aes(x = island, fill = sex)) + 
+  geom_bar() + 
+  labs(
+    x = "Island",
+    title = "Where are Penguins From?"
+  )
 ```
 
-Interpretation goes here...
+Biscoe has the highest penguin population, followed by Dream then Torgersen.
+On each island, roughly 50% of the penguins are male and 50% of the penguins are female (a few penguins on each island are not labeled with a sex).
 
 15. Make another plot that uses at least three variables. At least one should be numeric and at least one categorical. In 1-2 sentences, describe what the plot shows about the relationships between the variables you plotted. Don't forget to label your code chunk.
 
 ```{r}
 # add code here
+
+ggplot(penguins, aes(x = body_mass_g, y = flipper_length_mm, color = sex)) + 
+  geom_smooth(show.legend = FALSE) + geom_point(show.legend = FALSE) + 
+  labs(
+    x = "Weight (g)", y = "Flipper Length (mm)",
+    title = "Flipper Length vs Weight, By Sex"
+  ) + facet_wrap(~sex)
 ```
 
-Interpretation goes here...
+Male penguins tend to be heavier and have longer fins than female penguins.
