@@ -171,12 +171,12 @@ ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) +
 ```{r}
 #| label: beeswarm-weight-species
 
-ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) + 
-  geom_beeswarm() + 
-  labs(
-    x = "Species", y = "Weights of Penguins",
-    title = "Distribution of Weights of Penguins by Species") +
-  theme(legend.position = "none")
+# ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) + 
+#   geom_beeswarm() + 
+#   labs(
+#     x = "Species", y = "Weights of Penguins",
+#     title = "Distribution of Weights of Penguins by Species") +
+#   theme(legend.position = "none")
 ```
 
 11. Use multiple geoms on a single plot. Be deliberate about the order of plotting. Change the theme and the color scale of the plot. Finally, add informative labels.
