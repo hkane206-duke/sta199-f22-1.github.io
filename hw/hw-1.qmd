@@ -1,5 +1,6 @@
 ---
 title: "HW 1 - Data visualization"
+author: "Harrison Kane"
 categories: "Homework"
 editor: visual
 ---
@@ -79,13 +80,23 @@ Luckily, you can help them answer this question with data visualization!
 #| eval: false
 
 duke_forest |>
-  mutate(garage = if_else(str_detect(parking, "Garage"),   "Garage", "No garage"))
+  mutate(garage = if_else(str_detect(parking, "Garage"),   "Garage", "No garage")) |>
+  ggplot(aes(x = price, fill = garage)) + 
+  geom_histogram(binwidth = 500000, show.legend = FALSE) + 
+  facet_wrap(~garage) + 
+  labs(
+    x = "Price", y = "Count",
+    title = "Distirbution of House Price By Garage/No Garage"
+  )
 ```
 
 -   Then, facet by `garage` and use different colors for the two facets.
 -   Choose an appropriate binwidth and decide whether a legend is needed, and turn it off if not.
 -   Include informative title and axis labels.
 -   Finally, include a brief (2-3 sentence) narrative comparing the distributions of prices of Duke Forest houses that do and don't have garages. Your narrative should touch on whether having a garage "makes a difference" in terms of the price of the house.
+
+Based on the distributions above, having a garage doesn't "make a difference" in the pricing of the house.
+While there are more houses without a garage priced between \$500k and 1 million, there are roughly an equal amount of houses priced below and above this range.
 
 ::: render-commit-push
 Now is a good time to render, commit, and push.

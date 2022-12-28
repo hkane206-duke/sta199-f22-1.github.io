@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.258">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Harrison Kane">
 
 <title>STA 199 - HW 1 - Data visualization</title>
 <style>
@@ -152,7 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="../index.html" class="sidebar-logo-link">
+      <a href="../" class="sidebar-logo-link">
       <img src="../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main tools-wide">
@@ -320,8 +321,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Harrison Kane </p>
+          </div>
+  </div>
     
-  
     
   </div>
   
@@ -417,7 +423,14 @@ Note
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>duke_forest <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">garage =</span> <span class="fu">if_else</span>(<span class="fu">str_detect</span>(parking, <span class="st">"Garage"</span>),   <span class="st">"Garage"</span>, <span class="st">"No garage"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">garage =</span> <span class="fu">if_else</span>(<span class="fu">str_detect</span>(parking, <span class="st">"Garage"</span>),   <span class="st">"Garage"</span>, <span class="st">"No garage"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> price, <span class="at">fill =</span> garage)) <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">500000</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>garage) <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Price"</span>, <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distirbution of House Price By Garage/No Garage"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Then, facet by <code>garage</code> and use different colors for the two facets.</li>
@@ -425,6 +438,7 @@ Note
 <li>Include informative title and axis labels.</li>
 <li>Finally, include a brief (2-3 sentence) narrative comparing the distributions of prices of Duke Forest houses that do and don’t have garages. Your narrative should touch on whether having a garage “makes a difference” in terms of the price of the house.</li>
 </ul>
+<p>Based on the distributions above, having a garage doesn’t “make a difference” in the pricing of the house. While there are more houses without a garage priced between $500k and 1 million, there are roughly an equal amount of houses priced below and above this range.</p>
 <div class="render-commit-push">
 <p>Now is a good time to render, commit, and push. Make sure that you commit and push all changed documents and your Git pane is completely empty before proceding. <br></p>
 </div>
@@ -707,9 +721,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   // Switch to dark mode if need be
   if (hasAlternateSentinel()) {
     toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
+  } 
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -731,24 +743,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
     setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -784,42 +779,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
       });
-    }
+      return popup.innerHTML;
+    });
   }
 });
 </script>
