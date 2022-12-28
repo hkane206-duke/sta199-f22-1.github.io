@@ -145,15 +145,12 @@ ggplot(penguins, aes(x = body_mass_g, color = species)) +
 ```{r}
 #| label: violin-weight-species
 
-ggplot(penguins, aes(x = body_mass_g, color = species)) + 
+ggplot(penguins, aes(x = body_mass_g, y = species, color = species)) + 
   geom_violin() + 
-  facet_wrap(~species) + 
   labs(
-    x = "Weights of Penguins",
+    x = "Weights of Penguins", y = "Species",
     title = "Distribution of Weights of Penguins by Species") +
-  theme(axis.text.x=element_blank(),
-        axis.ticks.x=element_blank(), 
-        legend.position = "none")
+  theme(legend.position = "none")
 ```
 
 9.  Make a jittered scatter plot. Add color as you see fit and turn off legends if not needed.
@@ -161,7 +158,12 @@ ggplot(penguins, aes(x = body_mass_g, color = species)) +
 ```{r}
 #| label: jitter-weight-species
 
-# add code here
+ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) + 
+  geom_jitter() + 
+  labs(
+    x = "Species", y = "Weights of Penguins",
+    title = "Distribution of Weights of Penguins by Species") +
+  theme(legend.position = "none")
 ```
 
 10. Use beeswarm plots. Add color as you see fit and turn off legends if not needed.
@@ -169,7 +171,12 @@ ggplot(penguins, aes(x = body_mass_g, color = species)) +
 ```{r}
 #| label: beeswarm-weight-species
 
-# add code here
+ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) + 
+  geom_beeswarm() + 
+  labs(
+    x = "Species", y = "Weights of Penguins",
+    title = "Distribution of Weights of Penguins by Species") +
+  theme(legend.position = "none")
 ```
 
 11. Use multiple geoms on a single plot. Be deliberate about the order of plotting. Change the theme and the color scale of the plot. Finally, add informative labels.
@@ -177,7 +184,12 @@ ggplot(penguins, aes(x = body_mass_g, color = species)) +
 ```{r}
 #| label: multi-geoms
 
-# add code here
+ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) + 
+  geom_jitter() + geom_violin(aes(alpha = 0.5)) +
+  labs(
+    x = "Species", y = "Weights of Penguins",
+    title = "Distribution of Weights of Penguins by Species") +
+  theme(legend.position = "none")
 ```
 
 ## Multiple variables
@@ -191,7 +203,13 @@ Analyzing the relationship between three or more variables is called **multivari
 ```{r}
 #| label: multi-geoms-facet
 
-# add code here
+ggplot(penguins, aes(x = species, y = body_mass_g, color = species)) + 
+  geom_jitter() + geom_violin(aes(alpha = 0.5)) +
+  labs(
+    x = "Species", y = "Weights of Penguins",
+    title = "Distribution of Weights of Penguins by Species") +
+  theme(legend.position = "none") + 
+  facet(~island)
 ```
 
 Before you continue, let's turn off all warnings the code chunks generate and resize all figures.
