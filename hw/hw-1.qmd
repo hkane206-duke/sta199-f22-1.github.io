@@ -116,10 +116,18 @@ Once again, data visualization skills to the rescue!
 -   Create a scatter plot to exploring the relationship between `price` and `area`, conditioning for `year_built`.
 -   Use `geom_smooth()` with the argument `se = FALSE` to add a smooth curve fit to the data and color the points by `year_built`.
 -   Include informative title, axis, and legend labels.
+
+```{r}
+ggplot(duke_forest, aes(x = area, y = price)) + 
+  geom_point(aes(color = year_built)) + geom_smooth(se = FALSE) + 
+  labs(x = "Area (ft2)", y = "Price ($)",
+       title = "Price vs Area")
+```
+
 -   Discuss each of the following claims (1-2 sentences per claim). Your discussion should touch on specific things you observe in your plot as evidence for or against the claims.
-    -   Claim 1: Larger houses are priced higher.
-    -   Claim 2: Newer houses are priced higher.
-    -   Claim 3: Bigger and more expensive houses tend to be newer ones than smaller and cheaper ones.
+    -   Claim 1: Larger houses are priced higher. Supported - best fit line has positive slope.
+    -   Claim 2: Newer houses are priced higher. Not supported - different color points throughout whole plot.
+    -   Claim 3: Bigger and more expensive houses tend to be newer ones than smaller and cheaper ones. Not supported - different color points throughout whole plot.
 
 ::: render-commit-push
 Now is a good time to render, commit, and push.
