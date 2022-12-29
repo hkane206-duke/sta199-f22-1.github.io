@@ -161,9 +161,13 @@ brfss <- read_csv("data/brfss.csv")
 
 ## Exercise 3
 
--   How many rows are in the `brfss` dataset? What does each row represent?
--   How many columns are in the `brfss` dataset? Indicate the type of each variable.
+-   How many rows are in the `brfss` dataset? What does each row represent? 2000 participants
+-   How many columns are in the `brfss` dataset? Indicate the type of each variable. 4 variables
 -   Include the code and resulting output used to support your answer.
+
+```{r}
+glimpse(brfss)
+```
 
 ::: render-commit-push
 <br> Now is a good time to render, commit, and push.
@@ -184,12 +188,17 @@ brfss <- read_csv("data/brfss.csv")
 brfss |>
   mutate(
     general_health = as.factor(general_health),
-    general_health = fct_relevel(general_health, "Excellent", "Very good", "Good", "Fair", "Poor")
-  )
+    general_health = fct_relevel(general_health, "Excellent", "Very good", "Good", "Fair", "Poor"),
+    smoke_freq = fct_relevel(smoke_freq, "Every day", "Some days", "Not at all")
+  ) |>
+  ggplot(aes(x = general_health, fill = smoke_freq)) + 
+  geom_bar() + 
+  labs(x = "General Health", y = "Count",
+       title = "General Health from Smoking Frequency")
 ```
 
 -   Include informative title, axis, and legend labels.
--   Comment on the motivating question based on evidence from the visualization: Do people who smoke more tend to have worse health conditions?
+-   Comment on the motivating question based on evidence from the visualization: Do people who smoke more tend to have worse health conditions? I guess? Would probably be easier to facet by smoke_freq and look at each individual distribution.
 
 ::: render-commit-push
 <br> Now is a good time to render, commit, and push.

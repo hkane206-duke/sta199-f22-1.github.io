@@ -504,10 +504,21 @@ Note
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
 <ul>
-<li>How many rows are in the <code>brfss</code> dataset? What does each row represent?</li>
-<li>How many columns are in the <code>brfss</code> dataset? Indicate the type of each variable.</li>
+<li>How many rows are in the <code>brfss</code> dataset? What does each row represent? 2000 participants</li>
+<li>How many columns are in the <code>brfss</code> dataset? Indicate the type of each variable. 4 variables</li>
 <li>Include the code and resulting output used to support your answer.</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(brfss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,000
+Columns: 4
+$ state          &lt;chr&gt; NA, "CO", "MN", "VA", "UT", "KS", "UT", "TX", "OR", "OH…
+$ general_health &lt;chr&gt; "Fair", "Good", "Very good", "Excellent", "Very good", …
+$ smoke_freq     &lt;chr&gt; "Not at all", "Some days", "Every day", "Not at all", "…
+$ sleep          &lt;dbl&gt; 6, 7, 6, 8, 7, 10, 7, 6, 8, 8, 8, 6, 9, 8, 7, 7, 8, 6, …</code></pre>
+</div>
+</div>
 <div class="render-commit-push">
 <p><br> Now is a good time to render, commit, and push. <br><br></p>
 </div>
@@ -523,15 +534,20 @@ Note
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>brfss <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">general_health =</span> <span class="fu">as.factor</span>(general_health),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">general_health =</span> <span class="fu">fct_relevel</span>(general_health, <span class="st">"Excellent"</span>, <span class="st">"Very good"</span>, <span class="st">"Good"</span>, <span class="st">"Fair"</span>, <span class="st">"Poor"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>brfss <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">general_health =</span> <span class="fu">as.factor</span>(general_health),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">general_health =</span> <span class="fu">fct_relevel</span>(general_health, <span class="st">"Excellent"</span>, <span class="st">"Very good"</span>, <span class="st">"Good"</span>, <span class="st">"Fair"</span>, <span class="st">"Poor"</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">smoke_freq =</span> <span class="fu">fct_relevel</span>(smoke_freq, <span class="st">"Every day"</span>, <span class="st">"Some days"</span>, <span class="st">"Not at all"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> general_health, <span class="at">fill =</span> smoke_freq)) <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"General Health"</span>, <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"General Health from Smoking Frequency"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Include informative title, axis, and legend labels.</li>
-<li>Comment on the motivating question based on evidence from the visualization: Do people who smoke more tend to have worse health conditions?</li>
+<li>Comment on the motivating question based on evidence from the visualization: Do people who smoke more tend to have worse health conditions? I guess? Would probably be easier to facet by smoke_freq and look at each individual distribution.</li>
 </ul>
 <div class="render-commit-push">
 <p><br> Now is a good time to render, commit, and push. <br><br></p>
@@ -561,7 +577,7 @@ Note
 <li>Code style: Fix up the code style by spaces and line breaks where needed. Briefly describe your fixes. (Hint: You can refer to the <a href="https://style.tidyverse.org/">Tidyverse style guide</a>.)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg,<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>drv,<span class="at">fill=</span>class))<span class="sc">+</span><span class="fu">geom_bar</span>() <span class="sc">+</span><span class="fu">scale_fill_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>mpg,<span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>drv,<span class="at">fill=</span>class))<span class="sc">+</span><span class="fu">geom_bar</span>() <span class="sc">+</span><span class="fu">scale_fill_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="a">
 <li>Read <code>?facet_wrap</code>. What does <code>nrow</code> do? What does <code>ncol</code> do? What other options control the layout of the individual panels? Why doesn’t <code>facet_grid()</code> have <code>nrow</code> and <code>ncol</code> arguments?</li>
