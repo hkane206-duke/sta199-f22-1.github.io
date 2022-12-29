@@ -212,7 +212,16 @@ brfss |>
 -   Create a visualization displaying the relationship between `sleep` and `general_health`.
 -   Include informative title and axis labels.
 -   Modify your plot to use a different theme than the default.
--   Comment on the motivating question based on evidence from the visualization: How are sleep and general health associated?
+-   Comment on the motivating question based on evidence from the visualization: How are sleep and general health associated? People with poor general have a larger variability in sleep length.
+
+```{r}
+brfss |>
+  mutate(
+    general_health = as.factor(general_health),
+    general_health = fct_relevel(general_health, "Excellent", "Very good", "Good", "Fair", "Poor")) |>
+  ggplot(aes(x = general_health, y = sleep)) + geom_boxplot() + 
+  theme()
+```
 
 ::: render-commit-push
 <br> Now is a good time to render, commit, and push.

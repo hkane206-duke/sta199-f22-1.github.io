@@ -816,7 +816,7 @@
     "href": "hw/hw-1.html#exercise-5",
     "title": "HW 1 - Data visualization",
     "section": "Exercise 5",
-    "text": "Exercise 5\nHow are sleep and general health associated?\n\nCreate a visualization displaying the relationship between sleep and general_health.\nInclude informative title and axis labels.\nModify your plot to use a different theme than the default.\nComment on the motivating question based on evidence from the visualization: How are sleep and general health associated?\n\n\n Now is a good time to render, commit, and push."
+    "text": "Exercise 5\nHow are sleep and general health associated?\n\nCreate a visualization displaying the relationship between sleep and general_health.\nInclude informative title and axis labels.\nModify your plot to use a different theme than the default.\nComment on the motivating question based on evidence from the visualization: How are sleep and general health associated? People with poor general have a larger variability in sleep length.\n\n\nbrfss |>\n  mutate(\n    general_health = as.factor(general_health),\n    general_health = fct_relevel(general_health, \"Excellent\", \"Very good\", \"Good\", \"Fair\", \"Poor\")) |>\n  ggplot(aes(x = general_health, y = sleep)) + geom_boxplot() + \n  theme()\n\n\n\n\n\n Now is a good time to render, commit, and push."
   },
   {
     "objectID": "hw/hw-1.html#exercise-6",
