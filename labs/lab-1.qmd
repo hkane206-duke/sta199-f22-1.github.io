@@ -118,9 +118,18 @@ Once again, make sure to commit and push all changed files so that your Git pane
 :::
 
 5.  *Do some states have counties that tend to be geographically larger than others?* To explore this question, create side-by-side boxplots of area (`area`) of a county based on state (`state`).
-    -   Describe what you observe from the plot.
-    -   Which state has the single largest county? How do you know based on the plot?
-6.  *Do some states have a higher percentage of their counties located in a metropolitan area?* Create a segmented bar chart with one bar per state and the fill determined by the distribution of `metro`, whether a county is considered in a metro area. The y axis of the segmented barplot should range from 0 to 1.
+    -   Describe what you observe from the plot. WI has highest mean ocunty area
+    -   Which state has the single largest county? How do you know based on the plot? MI, largest outlier
+
+```{r}
+ggplot(midwest, aes(x = area)) + geom_boxplot() + 
+  facet_wrap(~state) + 
+  labs(x = "Area of Counties", 
+       title = "Distributions of Area of Counties by State") + 
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+```
+
+5.  *Do some states have a higher percentage of their counties located in a metropolitan area?* Create a segmented bar chart with one bar per state and the fill determined by the distribution of `metro`, whether a county is considered in a metro area. The y axis of the segmented barplot should range from 0 to 1.
     -   What do you notice from the plot?
 
 ::: callout-note
@@ -132,7 +141,7 @@ We will learn more about data wrangling next week.
 #| label: hint
 #| eval: false
 
-midwest <- midwest |>
+midwest_metro <- midwest |>
   mutate(metro = if_else(inmetro == 1, "Yes", "No"))
 ```
 
