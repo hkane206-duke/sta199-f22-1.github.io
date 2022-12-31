@@ -91,12 +91,19 @@ Make sure to commit and push all changed files so that your Git pane is empty af
 
 3.  Describe what you observe in the plot from the previous exercise.
     In your description, include similarities and differences in the patterns across states.
+    Counties with a lower percentage of college educated people tend to have a higher percentage of people above the poverty line, across states.
 
 4.  Now, let's examine the relationship between the same two variables, using a separate plot for each state.
     Label the axes and give the plot a title.
     Use `geom_smooth` with the argument `se = FALSE` to add a smooth curve fit to the data.
     Which plot do you prefer - this plot or the plot in Ex 2?
     Briefly explain your choice.
+    This plot is much clearer in showing the trends in the data.
+
+```{r}
+ggplot(midwest, aes(x = percollege, y = percbelowpoverty)) + 
+  geom_smooth(se = FALSE) + facet_wrap(~state)
+```
 
 ::: callout-note
 `se = FALSE` removes the confidence bands around the line.
