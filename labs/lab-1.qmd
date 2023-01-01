@@ -141,8 +141,15 @@ We will learn more about data wrangling next week.
 #| label: hint
 #| eval: false
 
-midwest_metro <- midwest |>
+midwest <- midwest |>
   mutate(metro = if_else(inmetro == 1, "Yes", "No"))
+
+ggplot(midwest, aes(x = state, fill = metro)) + 
+  geom_bar(position = "fill") + 
+  labs(x = "State", y = "Proportion Metro",
+       title = "Metro Areas by State") + 
+  theme(axis.text.y = element_blank(), 
+        axis.ticks.y = element_blank())
 ```
 
 ::: render-commit-push
@@ -154,6 +161,18 @@ So take a moment to make sure you're following along with the instructions aroun
 :::
 
 7.  Recreate the plot below.
+
+```{r}
+ggplot(midwest, aes(x = percollege, y = popdensity, 
+                    alpha = 0.5, color = percbelowpoverty)) + 
+  geom_point(size = 2) + facet_wrap(~state) + 
+  theme_minimal() +
+  labs(x = "% college educated", 
+       y = "Population density (person / unit area",
+       title = "Do people with college degrees tend to live in denser areas?",
+       color = "% below \npoverty line") + 
+  guides(size = "none", alpha = "none")
+```
 
 Hints:
 
