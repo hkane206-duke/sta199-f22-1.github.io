@@ -215,7 +215,7 @@ longest_delays
 ```{r}
 #| label: rdu
 
-# add code here
+flights |> filter(dest=="RDU")
 ```
 
 -   Demo: We can also filter using more than one condition. Here we select all rows where the destination airport is RDU and the arrival delay is less than 0.
@@ -223,7 +223,7 @@ longest_delays
 ```{r}
 #| label: rdu-ontime
 
-# add code here
+flights |> filter(dest == "RDU" & arr_delay < 0)
 ```
 
 We can do more complex tasks using logical operators:
@@ -261,7 +261,7 @@ The final operator only makes sense if `x` is logical (TRUE / FALSE).
 ```{r}
 #| label: count-dest
 
-# add code here
+count(flights, dest)
 ```
 
 -   Demo: In which month was there the fewest number of flights? How many flights were there in that month?
@@ -269,7 +269,8 @@ The final operator only makes sense if `x` is logical (TRUE / FALSE).
 ```{r}
 #| label: count-month
 
-# add code here
+flights |> count(month) |>
+  arrange(n)
 ```
 
 -   **Your turn (5 minutes):** On which date (month + day) was there the largest number of flights? How many flights were there on that day? *Share your response on Slack on the relevant thread on #general using code formatting.*
@@ -277,7 +278,10 @@ The final operator only makes sense if `x` is logical (TRUE / FALSE).
 ```{r}
 #| label: count-date
 
-# add code here
+flights |>
+  group_by(month, day) |> 
+  count() |>
+  arrange(n)
 ```
 
 ## `mutate()`
