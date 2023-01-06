@@ -136,7 +136,8 @@ glimpse(continents)
 ```{r}
 #| label: join-fisheries-continents
 
-# add code here
+fisheries <- left_join(fisheries, continents)
+fisheries
 ```
 
 -   **Demo:** Take a look at the updated `fisheries` data frame. There are some countries that were not in `continents`. First, identify which countries these are (they will have `NA` values for `continent`). Then, manually update the `continent` information for these countries using the `case_when` function. Finally, check that these updates have been made as intended and no countries are left without continent information.
@@ -144,7 +145,14 @@ glimpse(continents)
 ```{r}
 #| label: data-clean
 
-# add code here
+fisheries |> mutate(
+  continent = case_when(
+    !is.na(continent) ~ continent,
+    country == "Democratic Republic of the Congo" ~ "Africa",
+    country == "Hong Kong" ~ "Asia",
+    country == "Myanmar" ~ "Asia"
+  )
+)
 ```
 
 -   **Demo:** Add a new column to the `fisheries` data frame called `aq_prop`. We will calculate it as `aquaculture / total`. Save the resulting frame as `fisheries`.
@@ -152,7 +160,9 @@ glimpse(continents)
 ```{r add-aq-prop}
 #| label: add-aq-prop
 
-# add code here
+fisheries |> mutate(
+  aq_prop = aquaculture / sum(aquaculture)
+)
 ```
 
 -   **Demo:** Calculate the mean aquaculture proportion (we'll call it `mean_aq_prop`) for continents in the fisheries data using the `summarize()` function in dplyr. Note that the function for calculating the mean is `mean()` in R.
