@@ -889,13 +889,51 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <li>Demo: In the code chunk below, <code>air_time</code> (minutes in the air) is converted to hours, and then new variable <code>mph</code> is created, corresponding to the miles per hour of the flight.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">mph =</span> distance <span class="sc">/</span> (air_time <span class="sc">/</span> <span class="dv">60</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 336,776 × 20
+    year month   day dep_time sched_de…¹ dep_d…² arr_t…³ sched…⁴ arr_d…⁵ carrier
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;      &lt;int&gt;   &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+ 1  2013     1     1      517        515       2     830     819      11 UA     
+ 2  2013     1     1      533        529       4     850     830      20 UA     
+ 3  2013     1     1      542        540       2     923     850      33 AA     
+ 4  2013     1     1      544        545      -1    1004    1022     -18 B6     
+ 5  2013     1     1      554        600      -6     812     837     -25 DL     
+ 6  2013     1     1      554        558      -4     740     728      12 UA     
+ 7  2013     1     1      555        600      -5     913     854      19 B6     
+ 8  2013     1     1      557        600      -3     709     723     -14 EV     
+ 9  2013     1     1      557        600      -3     838     846      -8 B6     
+10  2013     1     1      558        600      -2     753     745       8 AA     
+# … with 336,766 more rows, 10 more variables: flight &lt;int&gt;, tailnum &lt;chr&gt;,
+#   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
+#   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, mph &lt;dbl&gt;, and abbreviated variable names
+#   ¹​sched_dep_time, ²​dep_delay, ³​arr_time, ⁴​sched_arr_time, ⁵​arr_delay</code></pre>
+</div>
 </div>
 <ul>
 <li><strong>Your turn (4 minutes):</strong> Create a new variable to calculate the percentage of flights in each month. What percentage of flights take place in July?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(month) <span class="sc">|&gt;</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">months_perc =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 3
+   month     n months_perc
+   &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;
+ 1     1 27004        8.02
+ 2     2 24951        7.41
+ 3     3 28834        8.56
+ 4     4 28330        8.41
+ 5     5 28796        8.55
+ 6     6 28243        8.39
+ 7     7 29425        8.74
+ 8     8 29327        8.71
+ 9     9 27574        8.19
+10    10 28889        8.58
+11    11 27268        8.10
+12    12 28135        8.35</code></pre>
+</div>
 </div>
 </section>
 <section id="summarize" class="level2">
@@ -903,12 +941,26 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <p><code>summarize()</code> collapses the rows into summary statistics and removes columns irrelevant to the calculation.</p>
 <p>Be sure to name your columns!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_dep_delay =</span> <span class="fu">mean</span>(dep_delay))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_dep_delay
+           &lt;dbl&gt;
+1             NA</code></pre>
+</div>
 </div>
 <p><strong>Question: Why did this code return <code>NA</code>?</strong></p>
 <p>Let’s fix it!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_dep_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_dep_delay
+           &lt;dbl&gt;
+1           12.6</code></pre>
+</div>
 </div>
 </section>
 <section id="group_by" class="level2">
@@ -916,13 +968,43 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <p><code>group_by()</code> is used for grouped operations. It’s very powerful when paired with <code>summarise()</code> to calculate summary statistics by group.</p>
 <p>Here we find the mean and standard deviation of departure delay for each month.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_dep_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">stdev_dep_delay =</span> <span class="fu">sd</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 3
+   month mean_dep_delay stdev_dep_delay
+   &lt;int&gt;          &lt;dbl&gt;           &lt;dbl&gt;
+ 1     1          10.0             36.4
+ 2     2          10.8             36.3
+ 3     3          13.2             40.1
+ 4     4          13.9             43.0
+ 5     5          13.0             39.4
+ 6     6          20.8             51.5
+ 7     7          21.7             51.6
+ 8     8          12.6             37.7
+ 9     9           6.72            35.6
+10    10           6.24            29.7
+11    11           5.44            27.6
+12    12          16.6             41.9</code></pre>
+</div>
 </div>
 <ul>
 <li><strong>Your turn (4 minutes):</strong> What is the median departure delay for each airports around NYC (<code>origin</code>)? Which airport has the shortest median departure delay? <em>Share your response on Slack on the relevant thread.</em></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin) <span class="sc">|&gt;</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">med_dep_delay =</span> <span class="fu">median</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  origin med_dep_delay
+  &lt;chr&gt;          &lt;dbl&gt;
+1 EWR               -1
+2 JFK               -1
+3 LGA               -3</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -932,13 +1014,64 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <li>Create a new dataset that only contains flights that do not have a missing departure time. Include the columns <code>year</code>, <code>month</code>, <code>day</code>, <code>dep_time</code>, <code>dep_delay</code>, and <code>dep_delay_hours</code> (the departure delay in hours). <em>Hint: Note you may need to use <code>mutate()</code> to make one or more of these variables.</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>flight_times <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dep_delay_hours =</span> dep_delay <span class="sc">/</span> <span class="dv">60</span>) <span class="sc">|&gt;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, month, day, dep_time, dep_delay, dep_delay_hours)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>flight_times</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 336,776 × 6
+    year month   day dep_time dep_delay dep_delay_hours
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;           &lt;dbl&gt;
+ 1  2013     1     1      517         2          0.0333
+ 2  2013     1     1      533         4          0.0667
+ 3  2013     1     1      542         2          0.0333
+ 4  2013     1     1      544        -1         -0.0167
+ 5  2013     1     1      554        -6         -0.1   
+ 6  2013     1     1      554        -4         -0.0667
+ 7  2013     1     1      555        -5         -0.0833
+ 8  2013     1     1      557        -3         -0.05  
+ 9  2013     1     1      557        -3         -0.05  
+10  2013     1     1      558        -2         -0.0333
+# … with 336,766 more rows</code></pre>
+</div>
 </div>
 <ol start="2" type="1">
 <li>For each airplane (uniquely identified by <code>tailnum</code>), use a <code>group_by()</code> paired with <code>summarize()</code> to find the sample size, mean, and standard deviation of flight distances. Then include only the top 5 and bottom 5 airplanes in terms of mean distance traveled per flight in the final data frame.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>specific_flight_info <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tailnum) <span class="sc">|&gt;</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">num_flights =</span> <span class="fu">n</span>(),</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_dist =</span> <span class="fu">mean</span>(distance, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">stdev_dist =</span> <span class="fu">sd</span>(distance, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">slice_min</span>(specific_flight_info, mean_dist, <span class="at">n =</span> <span class="dv">5</span>), </span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">slice_max</span>(specific_flight_info, mean_dist, <span class="at">n =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 19 × 4
+   tailnum num_flights mean_dist stdev_dist
+   &lt;chr&gt;         &lt;int&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+ 1 N955UW          225      173.       32.9
+ 2 N948UW          232      174.       32.7
+ 3 N959UW          213      174.       34.3
+ 4 N956UW          222      174.       31.4
+ 5 N945UW          285      176.       31.2
+ 6 N380HA           40     4983         0  
+ 7 N381HA           25     4983         0  
+ 8 N382HA           26     4983         0  
+ 9 N383HA           26     4983         0  
+10 N384HA           33     4983         0  
+11 N385HA           28     4983         0  
+12 N386HA           25     4983         0  
+13 N388HA           36     4983         0  
+14 N389HA           32     4983         0  
+15 N390HA           20     4983         0  
+16 N391HA           21     4983         0  
+17 N392HA           13     4983         0  
+18 N393HA           10     4983         0  
+19 N395HA            7     4983         0  </code></pre>
+</div>
 </div>
 
 

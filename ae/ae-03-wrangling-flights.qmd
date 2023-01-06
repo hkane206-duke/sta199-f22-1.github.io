@@ -293,7 +293,7 @@ Use `mutate()` to create a new variable.
 ```{r}
 #| label: calculate-mph
 
-# add code here
+flights |> mutate(mph = distance / (air_time / 60))
 ```
 
 -   **Your turn (4 minutes):** Create a new variable to calculate the percentage of flights in each month. What percentage of flights take place in July?
@@ -301,7 +301,9 @@ Use `mutate()` to create a new variable.
 ```{r}
 #| label: months-perc
 
-# add code here
+flights |>
+  count(month) |>
+  mutate(months_perc = n / sum(n) * 100)
 ```
 
 ## `summarize()`
@@ -313,7 +315,8 @@ Be sure to name your columns!
 ```{r}
 #| label: find-mean-delay
 
-# add code here
+flights |>
+  summarize(mean_dep_delay = mean(dep_delay))
 ```
 
 **Question: Why did this code return `NA`?**
@@ -323,7 +326,8 @@ Let's fix it!
 ```{r}
 #| label: find-mean-delay-no-na
 
-# add code here
+flights |>
+  summarize(mean_dep_delay = mean(dep_delay, na.rm = TRUE))
 ```
 
 ## `group_by()`
@@ -336,7 +340,10 @@ Here we find the mean and standard deviation of departure delay for each month.
 ```{r}
 #| label: delays-by-month
 
-# add code here
+flights |>
+  group_by(month) |>
+  summarize(mean_dep_delay = mean(dep_delay, na.rm = TRUE),
+            stdev_dep_delay = sd(dep_delay, na.rm = TRUE))
 ```
 
 -   **Your turn (4 minutes):** What is the median departure delay for each airports around NYC (`origin`)? Which airport has the shortest median departure delay? *Share your response on Slack on the relevant thread.*
@@ -344,7 +351,9 @@ Here we find the mean and standard deviation of departure delay for each month.
 ```{r}
 #| label: dep-origin
 
-# add code here
+flights |>
+  group_by(origin) |>
+  summarize(med_dep_delay = median(dep_delay, na.rm = TRUE))
 ```
 
 # Additional Practice
@@ -354,7 +363,11 @@ Here we find the mean and standard deviation of departure delay for each month.
 ```{r}
 #| label: add-practice-1
 
-# add code here
+flight_times <- flights |>
+  mutate(dep_delay_hours = dep_delay / 60) |>
+  select(year, month, day, dep_time, dep_delay, dep_delay_hours)
+
+flight_times
 ```
 
 2.  For each airplane (uniquely identified by `tailnum`), use a `group_by()` paired with `summarize()` to find the sample size, mean, and standard deviation of flight distances. Then include only the top 5 and bottom 5 airplanes in terms of mean distance traveled per flight in the final data frame.
@@ -362,5 +375,12 @@ Here we find the mean and standard deviation of departure delay for each month.
 ```{r}
 #| label: add-practice-2
 
-# add code here
+specific_flight_info <- flights |>
+  group_by(tailnum) |>
+  summarize(num_flights = n(),
+            mean_dist = mean(distance, na.rm = TRUE),
+            stdev_dist = sd(distance, na.rm = TRUE))
+
+rbind(slice_min(specific_flight_info, mean_dist, n = 5), 
+      slice_max(specific_flight_info, mean_dist, n = 5))
 ```
