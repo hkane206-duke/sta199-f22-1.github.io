@@ -542,7 +542,43 @@ $ grad_p75th                       &lt;dbl&gt; 53000, 40000, 45000, 24500, 40600
 <h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
 <p><strong>How do the distributions of median income compare across major categories?</strong> For this exercise, focus on undergraduates (<code>major_income_undergrad</code>).</p>
 <ol type="a">
-<li><p>Calculate a the minimum, median, and maximum median income per major category as well as the number of majors in each category. Your summary statistics should be in decreasing order of median median income.</p></li>
+<li>Calculate a the minimum, median, and maximum median income per major category as well as the number of majors in each category. Your summary statistics should be in decreasing order of median median income.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>major_category_summary <span class="ot">&lt;-</span> major_income_undergrad <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(major_category) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">min =</span> <span class="fu">min</span>(undergrad_median),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(undergrad_median),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fu">max</span>(undergrad_median),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(median))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>major_category_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 5
+   major_category                        min median    max     n
+   &lt;chr&gt;                               &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;
+ 1 Engineering                         61000  78000 126000    29
+ 2 Computers &amp; Mathematics             52000  68000  92000    11
+ 3 Business                            50000  60000  76000    13
+ 4 Physical Sciences                   58000  60000  85000    10
+ 5 Agriculture &amp; Natural Resources     48000  55000  65000    10
+ 6 Biology &amp; Life Science              40000  55000  66000    14
+ 7 Social Science                      46000  54000  70000     9
+ 8 Health                              44000  52000 107000    12
+ 9 Law &amp; Public Policy                 50000  52000  63000     5
+10 Communications &amp; Journalism         50000  51500  53000     4
+11 Industrial Arts &amp; Consumer Services 41600  50000  69000     7
+12 Humanities &amp; Liberal Arts           40000  49000  52000    15
+13 Arts                                38000  46000  50000     8
+14 Psychology &amp; Social Work            38700  46000  63000     9
+15 Education                           37000  44000  58000    15
+16 Interdisciplinary                   44000  44000  44000     1</code></pre>
+</div>
+</div>
+<ol type="a">
 <li><p>Create box plots of the distribution of median income by major category.</p>
 <ul>
 <li>The variable <code>major_category</code> should be on the y-axis and <code>undergrad_median</code> on the x-axis.</li>
@@ -550,8 +586,27 @@ $ grad_p75th                       &lt;dbl&gt; 53000, 40000, 45000, 24500, 40600
 <li>Use color to enhance your plot, and turn off any legends providing redundant information.</li>
 <li>Style the x-axis labels such that the values are shown in thousands, e.g., 20000 should show up as $20K.</li>
 </ul></li>
-<li><p>In 1-2 sentences, describe how median incomes across various major categories compare. Your description should also touch on where your own intended/declared major (yes, your major at Duke).</p></li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(major_income_undergrad, <span class="fu">aes</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">reorder</span>(major_category, undergrad_median, <span class="at">FUN =</span> median), </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> undergrad_median</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> major_category), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Median Income"</span>, <span class="at">y =</span> <span class="st">"Major Category"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Median Incomes by"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Major Category"</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">suffix =</span> <span class="st">" K"</span>, <span class="at">scale =</span> <span class="fl">1e-3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="hw-2_files/figure-html/dist-med-income-major-categories-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol type="a">
+<li>In 1-2 sentences, describe how median incomes across various major categories compare. Your description should also touch on where your own intended/declared major (yes, your major at Duke).</li>
+</ol>
+<p>In general, median incomes in STEM major categories tend to be greater than median incomes in humanities major categories. This is good for me!</p>
 <div class="render-commit-push">
 <p><br></p>
 <p>Once again, render, commit, and push. Make sure that you commit and push all changed documents and your Git pane is completely empty before proceeding.</p>
@@ -564,17 +619,17 @@ $ grad_p75th                       &lt;dbl&gt; 53000, 40000, 45000, 24500, 40600
 <ol type="a">
 <li><p>First, let’s create a new vector called <code>stem_categories</code> that lists the major categories that are considered STEM fields.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>stem_categories <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Biology &amp; Life Science"</span>,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Computers &amp; Mathematics"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Engineering"</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Physical Sciences"</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>stem_categories <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Biology &amp; Life Science"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Computers &amp; Mathematics"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Engineering"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Physical Sciences"</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, fill in the partial code to create a new variable in our data frame indicating whether a major is STEM or not. Note that you need to figure out the logical operator that goes into <code>___</code>. Double check that you have successfully created this variable by selecting the variables <code>major_type</code> and <code>major_category</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>major_income_undergrad <span class="ot">&lt;-</span> major_income_undergrad <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">major_type =</span> <span class="fu">if_else</span>(major_category ___ stem_categories, <span class="st">"STEM"</span>, <span class="st">"Not STEM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>major_income_undergrad <span class="ot">&lt;-</span> major_income_undergrad <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">major_type =</span> <span class="fu">if_else</span>(major_category ___ stem_categories, <span class="st">"STEM"</span>, <span class="st">"Not STEM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>In a single pipeline, determine which STEM majors’ median earnings are less than $55,000. Your answer should be a tibble with the columns <code>major</code>, <code>major_type</code>, and <code>undergrad_median</code>, arranged in order of descending <code>undergrad_median</code>.</p></li>
 </ol>

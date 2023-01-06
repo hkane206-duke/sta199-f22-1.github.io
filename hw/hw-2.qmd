@@ -163,8 +163,7 @@ ggplot(major_income_undergrad, aes(x = undergrad_median)) +
   )
 ```
 
-a.  Calculate the mean and median for median income.
-    Based on the shape of the histogram, determine which of these summary statistics is useful for describing the distribution.
+a.  Calculate the mean and median for median income. Based on the shape of the histogram, determine which of these summary statistics is useful for describing the distribution.
 
 ```{r summary-med-income}
 
@@ -176,8 +175,7 @@ major_income_undergrad |> summarize(
 
 Because the distribution is skewed right and has outliers, the median is a more useful measure of center for this distribution.
 
-a.  Describe the distribution of median incomes of college graduates across various majors based on your histogram from part (a) and incorporating the statistic you chose in part (b) to help your narrative.
-    *Hint:* Mention shape, center, spread, any unusual observations.
+a.  Describe the distribution of median incomes of college graduates across various majors based on your histogram from part (a) and incorporating the statistic you chose in part (b) to help your narrative. *Hint:* Mention shape, center, spread, any unusual observations.
 
 The distribution of median incomes of college graduates across various majors is skewed right, with a median of \$55,000.
 There are a few outlier majors that have a median income higher than most other majors (\>\$120,000).
@@ -195,18 +193,49 @@ Make sure that you commit and push all changed documents and your Git pane is co
 
 **How do the distributions of median income compare across major categories?** For this exercise, focus on undergraduates (`major_income_undergrad`).
 
-a.  Calculate a the minimum, median, and maximum median income per major category as well as the number of majors in each category.
-    Your summary statistics should be in decreasing order of median median income.
+a.  Calculate a the minimum, median, and maximum median income per major category as well as the number of majors in each category. Your summary statistics should be in decreasing order of median median income.
 
-b.  Create box plots of the distribution of median income by major category.
+```{r summary-by-major}
+
+major_category_summary <- major_income_undergrad |>
+  group_by(major_category) |>
+  summarize(
+    min = min(undergrad_median),
+    median = median(undergrad_median),
+    max = max(undergrad_median),
+    n = n()
+  ) |>
+  arrange(desc(median))
+
+major_category_summary
+```
+
+a.  Create box plots of the distribution of median income by major category.
 
     -   The variable `major_category` should be on the y-axis and `undergrad_median` on the x-axis.
     -   The order of the boxes in your plot should match the order in your summary table from part (a).
     -   Use color to enhance your plot, and turn off any legends providing redundant information.
     -   Style the x-axis labels such that the values are shown in thousands, e.g., 20000 should show up as \$20K.
 
-c.  In 1-2 sentences, describe how median incomes across various major categories compare.
-    Your description should also touch on where your own intended/declared major (yes, your major at Duke).
+```{r dist-med-income-major-categories}
+
+ggplot(major_income_undergrad, aes(
+  y = reorder(major_category, undergrad_median, FUN = median), 
+  x = undergrad_median
+)) + 
+  geom_boxplot(aes(fill = major_category), show.legend = FALSE) + 
+  labs(
+    x = "Median Income", y = "Major Category",
+    title = "Distribution of Median Incomes by",
+    subtitle = "Major Category"
+  ) + 
+  scale_x_continuous(labels = label_number(suffix = " K", scale = 1e-3))
+```
+
+a.  In 1-2 sentences, describe how median incomes across various major categories compare. Your description should also touch on where your own intended/declared major (yes, your major at Duke).
+
+In general, median incomes in STEM major categories tend to be greater than median incomes in humanities major categories.
+This is good for me!
 
 ::: render-commit-push
 <br>
