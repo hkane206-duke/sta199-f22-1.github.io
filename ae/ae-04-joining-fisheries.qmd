@@ -145,14 +145,15 @@ fisheries
 ```{r}
 #| label: data-clean
 
-fisheries |> mutate(
+fisheries <- fisheries |> mutate(
   continent = case_when(
-    !is.na(continent) ~ continent,
     country == "Democratic Republic of the Congo" ~ "Africa",
     country == "Hong Kong" ~ "Asia",
-    country == "Myanmar" ~ "Asia"
+    country == "Myanmar" ~ "Asia",
+    TRUE ~ continent
   )
 )
+fisheries
 ```
 
 -   **Demo:** Add a new column to the `fisheries` data frame called `aq_prop`. We will calculate it as `aquaculture / total`. Save the resulting frame as `fisheries`.
@@ -160,9 +161,10 @@ fisheries |> mutate(
 ```{r add-aq-prop}
 #| label: add-aq-prop
 
-fisheries |> mutate(
-  aq_prop = aquaculture / sum(aquaculture)
+fisheries <- fisheries |> mutate(
+  aq_prop = aquaculture / total
 )
+fisheries
 ```
 
 -   **Demo:** Calculate the mean aquaculture proportion (we'll call it `mean_aq_prop`) for continents in the fisheries data using the `summarize()` function in dplyr. Note that the function for calculating the mean is `mean()` in R.
@@ -170,7 +172,7 @@ fisheries |> mutate(
 ```{r}
 #| label: fisheries-mean
 
-# add code here
+fisheries |> summarize(mean_aq_prop = mean(aq_prop, na.rm = TRUE))
 ```
 
 -   **Your turn (5 minutes):** Now expand your calculations to also calculate the minimum and maximum aquaculture proportion for continents in the fisheries data. Note that the functions for calculating minimum and maximum in R are `min()` and `max()` respectively.
@@ -178,7 +180,11 @@ fisheries |> mutate(
 ```{r}
 #| label: fisheries-summary-display
 
-# add code here 
+fisheries |> summarize(
+  mean_aq_prop = mean(aq_prop, na.rm = TRUE),
+  min_aq_prop = min(aq_prop),
+  max_aq_prop = max(aq_prop)
+)
 ```
 
 -   **Demo:** Create a new data frame called `fisheries_summary` that calculates minimum, mean, and maximum aquaculture proportion for each continent in the fisheries data. Then, determine which continent has the largest value of `max_ap`?
@@ -186,7 +192,14 @@ fisheries |> mutate(
 ```{r}
 #| label: fisheries-summary-save
 
-# add code here
+fisheries_summary <- fisheries |>
+  group_by(continent) |>
+  summarize(
+    min_aq_prop = min(aq_prop),
+    mean_aq_prop = mean(aq_prop, na.rm = TRUE),
+    max_aq_prop = max(aq_prop)
+  )
+fisheries_summary
 ```
 
 -   **Demo:** Take the `fisheries_summary` data frame and order the results in descending order of mean aquaculture proportion.
@@ -194,7 +207,9 @@ fisheries |> mutate(
 ```{r}
 #| label: fisheries-summary-sorted
 
-# add code here
+fisheries_summary <- fisheries_summary |> arrange(desc(mean_aq_prop))
+
+fisheries_summary
 ```
 
 -   **Demo:** Recreate the following plot using the data frame you have developed so far.
@@ -204,8 +219,20 @@ fisheries |> mutate(
 ```{r}
 #| label: fisheries-summary-plot
 
-# add code here
+ggplot(fisheries_summary, aes(
+  y = fct_reorder(continent, mean_aq_prop),
+  x = mean_aq_prop
+)) + 
+  scale_x_continuous(lab = label_percent(accuracy = 1)) +
+  geom_col() + 
+  labs(x = NULL, y = NULL,
+       title = "Average share of aquaculture by continent",
+       subtitle = "out of total fisheries harvest, 2016",
+       caption = "Source: bit.ly/2VrawTt") + 
+  theme_minimal()
 ```
+
+"
 
 -   **Your turn (time permitting):** Change the [theme](https://ggplot2.tidyverse.org/reference/ggtheme.html) of the plot and make any other changes you would like to improve it.
 
