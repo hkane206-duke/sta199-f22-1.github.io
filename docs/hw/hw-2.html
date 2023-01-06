@@ -651,9 +651,79 @@ $ grad_p75th                       &lt;dbl&gt; 53000, 40000, 45000, 24500, 40600
 <h2 class="anchored" data-anchor-id="exercise-6">Exercise 6</h2>
 <p>Finally, we want to compare median incomes of STEM majors with and without a graduate degree in their major.</p>
 <ol type="a">
-<li><p>To do so, we will first join data that contains information on median incomes of those with undergraduate and graduate degrees. Join the <code>major_income_undergrad</code> and the <code>major_income_grad</code> data sets by <code>major_code</code>. Join them in such a way where <strong>only</strong> rows that include the same <code>major_code</code> from each data set are included. Name the new data set <code>major_income</code>.</p></li>
-<li><p>Create a new variable called <code>grad_multiplier</code> – the ratio of median income of those with a graduate degree divided by median income of those with an undergraduate degree, for STEM majors. The result should be tibble with the variables <code>major</code>, <code>grad_multiplier</code>, <code>grad_median</code>, and <code>undergrad_median</code>. The results should be displayed in descending order of <code>grad_multiplier</code> and display the STEM majors with top 10 <code>grad_multiplier</code>.</p></li>
-<li><p>Determine the number of rows of <code>major_income_undergrad</code> and <code>major_income_grad</code> as well as <code>major_income</code>. How come they don’t all have the same number of rows?</p></li>
+<li><p>To do so, we will first join data that contains information on median incomes of those with undergraduate and graduate degrees. Join the <code>major_income_undergrad</code> and the <code>major_income_grad</code> data sets by <code>major_code</code>. Join them in such a way where <strong>only</strong> rows that include the same <code>major_code</code> from each data set are included. Name the new data set <code>major_income</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>major_income <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(major_income_undergrad, major_income_grad)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining, by = c("major_code", "major", "major_category")</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>major_income</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 171 × 20
+   major…¹ major major…² under…³ under…⁴ under…⁵ under…⁶ under…⁷ under…⁸ under…⁹
+     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1    5601 Cons… Indust…   86062   73607   62435    3928  0.0507   47000   65000
+ 2    6004 Comm… Arts     461977  347166  250596   25484  0.0684   34000   48000
+ 3    6211 Hosp… Busine…  179335  145597  113579    7409  0.0484   35000   50000
+ 4    2201 Cosm… Indust…   37575   29738   23249    1661  0.0529   29000   41600
+ 5    2001 Comm… Comput…   53819   43163   34231    3389  0.0728   36000   52000
+ 6    6206 Mark… Busine… 1029181  817906  662346   45519  0.0527   40000   60000
+ 7    1101 Agri… Agricu…   89169   71781   61335    1869  0.0254   38000   55000
+ 8    2101 Comp… Comput…   28314   22024   18381    2222  0.0916   40000   60000
+ 9    1904 Adve… Commun…  163435  127832  100330    8706  0.0638   37800   51000
+10    6005 Film… Arts     116158   93915   63674    8160  0.0799   32000   50000
+# … with 161 more rows, 10 more variables: undergrad_p75th &lt;dbl&gt;,
+#   undergrad_sharewomen &lt;dbl&gt;, grad_total &lt;dbl&gt;, grad_employed &lt;dbl&gt;,
+#   grad_employed_fulltime_yearround &lt;dbl&gt;, grad_unemployed &lt;dbl&gt;,
+#   grad_unemployment_rate &lt;dbl&gt;, grad_p25th &lt;dbl&gt;, grad_median &lt;dbl&gt;,
+#   grad_p75th &lt;dbl&gt;, and abbreviated variable names ¹​major_code,
+#   ²​major_category, ³​undergrad_total, ⁴​undergrad_employed,
+#   ⁵​undergrad_employed_fulltime_yearround, ⁶​undergrad_unemployed, …</code></pre>
+</div>
+</div></li>
+<li><p>Create a new variable called <code>grad_multiplier</code> – the ratio of median income of those with a graduate degree divided by median income of those with an undergraduate degree, for STEM majors. The result should be tibble with the variables <code>major</code>, <code>grad_multiplier</code>, <code>grad_median</code>, and <code>undergrad_median</code>. The results should be displayed in descending order of <code>grad_multiplier</code> and display the STEM majors with top 10 <code>grad_multiplier</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>major_income <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">grad_multiplier =</span> grad_median <span class="sc">/</span> undergrad_median</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#filter(major_type == "STEM") |&gt; (not rendering)</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(major, grad_multiplier, grad_median, undergrad_median) <span class="sc">|&gt;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(grad_multiplier)) <span class="sc">|&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   major                                   grad_multiplier grad_median undergr…¹
+   &lt;chr&gt;                                             &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Health And Medical Preparatory Programs            2.65      135000     51000
+ 2 Zoology                                            2         110000     55000
+ 3 Physiology                                         1.8        90000     50000
+ 4 Biology                                            1.76       95000     54000
+ 5 Biochemical Sciences                               1.75       96000     55000
+ 6 Cognitive Science And Biopsychology                1.73       95000     55000
+ 7 Molecular Biology                                  1.7        85000     50000
+ 8 Chemistry                                          1.67      100000     60000
+ 9 Pharmacology                                       1.59      105000     66000
+10 United States History                              1.58       82000     52000
+# … with abbreviated variable name ¹​undergrad_median</code></pre>
+</div>
+</div></li>
+<li><p>Determine the number of rows of <code>major_income_undergrad</code> and <code>major_income_grad</code> as well as <code>major_income</code>. How come they don’t all have the same number of rows?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>nrows <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataset =</span> <span class="fu">c</span>(<span class="st">"major_income_undergrad"</span>, <span class="st">"major_income_grad"</span>, <span class="st">"major_income"</span>),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrows =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(major_income_undergrad), <span class="fu">nrow</span>(major_income_grad), </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">nrow</span>(major_income))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>nrows</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  dataset                nrows
+  &lt;chr&gt;                  &lt;int&gt;
+1 major_income_undergrad   172
+2 major_income_grad        172
+3 major_income             171</code></pre>
+</div>
+</div></li>
 </ol>
 <div class="render-commit-push">
 <p><br></p>

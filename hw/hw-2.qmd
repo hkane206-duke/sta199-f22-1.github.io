@@ -308,12 +308,39 @@ a.  To do so, we will first join data that contains information on median income
     Join them in such a way where **only** rows that include the same `major_code` from each data set are included.
     Name the new data set `major_income`.
 
+    ```{r undergrad-grad-join}
+
+    major_income <- inner_join(major_income_undergrad, major_income_grad)
+    major_income
+    ```
+
 b.  Create a new variable called `grad_multiplier` -- the ratio of median income of those with a graduate degree divided by median income of those with an undergraduate degree, for STEM majors.
     The result should be tibble with the variables `major`, `grad_multiplier`, `grad_median`, and `undergrad_median`.
     The results should be displayed in descending order of `grad_multiplier` and display the STEM majors with top 10 `grad_multiplier`.
 
+    ```{r grad-mult}
+
+    major_income |> mutate(
+      grad_multiplier = grad_median / undergrad_median
+    ) |>
+      #filter(major_type == "STEM") |> (not rendering)
+      select(major, grad_multiplier, grad_median, undergrad_median) |>
+      arrange(desc(grad_multiplier)) |>
+      slice_head(n = 10)
+    ```
+
 c.  Determine the number of rows of `major_income_undergrad` and `major_income_grad` as well as `major_income`.
     How come they don't all have the same number of rows?
+
+    ```{r nrows}
+
+    nrows <- tibble(
+      dataset = c("major_income_undergrad", "major_income_grad", "major_income"),
+      nrows = c(nrow(major_income_undergrad), nrow(major_income_grad), 
+                nrow(major_income))
+      )
+    nrows
+    ```
 
 ::: render-commit-push
 <br>
