@@ -499,10 +499,39 @@ $ grad_p75th                       &lt;dbl&gt; 53000, 40000, 45000, 24500, 40600
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
 <p><strong>How much are college graduates (those who finished undergrad) making?</strong> For this exercise, focus on undergraduates (<code>major_income_undergrad</code>).</p>
 <ol type="a">
-<li><p>Plot the distribution of all median incomes using a histogram with an appropriate binwidth.</p></li>
-<li><p>Calculate the mean and median for median income. Based on the shape of the histogram, determine which of these summary statistics is useful for describing the distribution.</p></li>
-<li><p>Describe the distribution of median incomes of college graduates across various majors based on your histogram from part (a) and incorporating the statistic you chose in part (b) to help your narrative. <em>Hint:</em> Mention shape, center, spread, any unusual observations.</p></li>
+<li>Plot the distribution of all median incomes using a histogram with an appropriate binwidth.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(major_income_undergrad, <span class="fu">aes</span>(<span class="at">x =</span> undergrad_median)) <span class="sc">+</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10000</span>) <span class="sc">+</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Median Income"</span>, <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Median Incomes of College Graduates"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="hw-2_files/figure-html/med-income-dist-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol type="a">
+<li>Calculate the mean and median for median income. Based on the shape of the histogram, determine which of these summary statistics is useful for describing the distribution.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>major_income_undergrad <span class="sc">|&gt;</span> <span class="fu">summarize</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean_median_income =</span> <span class="fu">mean</span>(undergrad_median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">med_median_income =</span> <span class="fu">median</span>(undergrad_median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  mean_median_income med_median_income
+               &lt;dbl&gt;             &lt;dbl&gt;
+1             58680.             55000</code></pre>
+</div>
+</div>
+<p>Because the distribution is skewed right and has outliers, the median is a more useful measure of center for this distribution.</p>
+<ol type="a">
+<li>Describe the distribution of median incomes of college graduates across various majors based on your histogram from part (a) and incorporating the statistic you chose in part (b) to help your narrative. <em>Hint:</em> Mention shape, center, spread, any unusual observations.</li>
+</ol>
+<p>The distribution of median incomes of college graduates across various majors is skewed right, with a median of $55,000. There are a few outlier majors that have a median income higher than most other majors (&gt;$120,000).</p>
 <div class="render-commit-push">
 <p><br></p>
 <p>Now is a good time to render, commit (with a descriptive and concise commit message), and push again. Make sure that you commit and push all changed documents and your Git pane is completely empty before proceeding.</p>
@@ -535,17 +564,17 @@ $ grad_p75th                       &lt;dbl&gt; 53000, 40000, 45000, 24500, 40600
 <ol type="a">
 <li><p>First, let’s create a new vector called <code>stem_categories</code> that lists the major categories that are considered STEM fields.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>stem_categories <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Biology &amp; Life Science"</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Computers &amp; Mathematics"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Engineering"</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Physical Sciences"</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>stem_categories <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Biology &amp; Life Science"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Computers &amp; Mathematics"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Engineering"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Physical Sciences"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, fill in the partial code to create a new variable in our data frame indicating whether a major is STEM or not. Note that you need to figure out the logical operator that goes into <code>___</code>. Double check that you have successfully created this variable by selecting the variables <code>major_type</code> and <code>major_category</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>major_income_undergrad <span class="ot">&lt;-</span> major_income_undergrad <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">major_type =</span> <span class="fu">if_else</span>(major_category ___ stem_categories, <span class="st">"STEM"</span>, <span class="st">"Not STEM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>major_income_undergrad <span class="ot">&lt;-</span> major_income_undergrad <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">major_type =</span> <span class="fu">if_else</span>(major_category ___ stem_categories, <span class="st">"STEM"</span>, <span class="st">"Not STEM"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>In a single pipeline, determine which STEM majors’ median earnings are less than $55,000. Your answer should be a tibble with the columns <code>major</code>, <code>major_type</code>, and <code>undergrad_median</code>, arranged in order of descending <code>undergrad_median</code>.</p></li>
 </ol>

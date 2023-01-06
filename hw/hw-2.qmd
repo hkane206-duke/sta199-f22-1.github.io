@@ -153,11 +153,34 @@ Make sure that you commit and push all changed documents and your Git pane is co
 
 a.  Plot the distribution of all median incomes using a histogram with an appropriate binwidth.
 
-b.  Calculate the mean and median for median income.
+```{r med-income-dist}
+
+ggplot(major_income_undergrad, aes(x = undergrad_median)) + 
+  geom_histogram(binwidth = 10000) + 
+  labs(
+    x = "Median Income", y = "Count",
+    title = "Distribution of Median Incomes of College Graduates"
+  )
+```
+
+a.  Calculate the mean and median for median income.
     Based on the shape of the histogram, determine which of these summary statistics is useful for describing the distribution.
 
-c.  Describe the distribution of median incomes of college graduates across various majors based on your histogram from part (a) and incorporating the statistic you chose in part (b) to help your narrative.
+```{r summary-med-income}
+
+major_income_undergrad |> summarize(
+  mean_median_income = mean(undergrad_median, na.rm = TRUE),
+  med_median_income = median(undergrad_median, na.rm = TRUE)
+)
+```
+
+Because the distribution is skewed right and has outliers, the median is a more useful measure of center for this distribution.
+
+a.  Describe the distribution of median incomes of college graduates across various majors based on your histogram from part (a) and incorporating the statistic you chose in part (b) to help your narrative.
     *Hint:* Mention shape, center, spread, any unusual observations.
+
+The distribution of median incomes of college graduates across various majors is skewed right, with a median of \$55,000.
+There are a few outlier majors that have a median income higher than most other majors (\>\$120,000).
 
 ::: render-commit-push
 <br>
