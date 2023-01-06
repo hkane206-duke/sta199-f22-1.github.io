@@ -274,11 +274,21 @@ a.  First, let's create a new vector called `stem_categories` that lists the maj
     #| eval: false
 
     major_income_undergrad <- major_income_undergrad |>
-      mutate(major_type = if_else(major_category ___ stem_categories, "STEM", "Not STEM"))
+      mutate(major_type = if_else(major_category %in% stem_categories, "STEM", "Not STEM"))
     ```
 
 b.  In a single pipeline, determine which STEM majors' median earnings are less than \$55,000.
     Your answer should be a tibble with the columns `major`, `major_type`, and `undergrad_median`, arranged in order of descending `undergrad_median`.
+
+```{r low-stem-median-earnings}
+
+#major_income_undergrad |>
+#  select(major, major_type, undergrad_median) |>
+#  filter(undergrad_median < 55000) |>
+#  arrange(desc(undergrad_median))
+
+#commented to be able to render
+```
 
 ::: render-commit-push
 <br>
