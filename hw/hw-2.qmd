@@ -114,11 +114,29 @@ In the following exercises we aim to answer these questions.
 The output should be a tibble with the columns `major`, and `undergrad_unemployment_rate`, with the major with the lowest unemployment rate on top, and displaying the majors with the lowest 5 unemployment rates.
 Include a sentence listing the majors and the unemployment rates (as percentages).
 
+```{r lowest-unemployment-rate}
+
+major_income_undergrad |>
+  select(major, undergrad_unemployment_rate) |>
+  slice_min(undergrad_unemployment_rate, n = 5)
+```
+
+The 5 majors with the lowest unemployment rate are Geological and Geophysical Engineering (0.00%), Educational Administration and Supervision (0.00%), Pharmacology (1.79%), Nuclear Engineering (2.09%), and Treatment Therapy Professions (2.17%).
+
 ## Exercise 2
 
 **Which majors have the highest percentage of women?** Answer the question using a single data wrangling pipeline and focusing on undergraduates (`major_income_undergrad`).
 The output should be a tibble with the columns `major`, and `undergrad_sharewomen`, with the major with the highest proportion of women on top, and displaying the majors with the highest 5 proportions of women.
 Include a sentence listing the majors and the percentage of women with the major.
+
+```{r highest-perc-women}
+
+major_income_undergrad |>
+  select(major, undergrad_sharewomen) |>
+  slice_max(undergrad_sharewomen, n = 5)
+```
+
+The 5 majors with the highest percentage of women are Early Childhood Education (96.90%), Communication Disorders Sciences And Services (96.80%), Medical Assisting Services (92.78%), Elementary Education (92.37%), and Family and Consumer Sciences (91.09%).
 
 ::: render-commit-push
 <br>
