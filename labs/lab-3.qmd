@@ -64,18 +64,6 @@ For this part of the analysis you will work with inflation data from various cou
 country_inflation <- read_csv("data/country-inflation.csv")
 ```
 
-country_inflation \|\> pivot_longer(
-
-cols = -country,
-
-names_to = "country",
-
-values_to = c("year", "annual_inflation"),
-
-values_sep =
-
-)
-
 1.  What does each row of the `country_inflation` dataset represent?
     What are the columns in the dataset and what do they represent?
     Each row is a year, each column is a country
@@ -97,7 +85,7 @@ values_sep =
     For example, if these countries are Türkiye and United States, you can express this as follows:
 
     ```{r}
-    countries_of_interest <- c("Türkiye", "United States")
+    countries_of_interest <- c("Türkiye", "United States", "Australia")
     ```
 
     Your `countries_of_interest` should consist of no more than five countries.
@@ -120,8 +108,13 @@ values_sep =
         ```{r}
         #| eval: false
 
-        ggplot(...) +
-          ... +
+        country_inflation_tidy |>
+          filter(country %in% countries_of_interest) |>
+          ggplot(aes(x = year, y = annual_inflation, 
+                     group = country, color = country)) +
+          geom_point() + geom_line() +
+          # NEED TO FIGURE THIS OUT LATER
+          scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
           scale_y_continuous(label = label_percent(scale = 1))
         ```
 
