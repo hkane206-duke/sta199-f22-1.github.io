@@ -1,6 +1,7 @@
 ---
 title: "Lab 3 - Data tidying"
 categories: "Lab"
+author: "Harrison Kane"
 execute:
   eval: true
 ---
