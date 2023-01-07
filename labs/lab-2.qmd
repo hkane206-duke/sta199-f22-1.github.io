@@ -245,6 +245,14 @@ Make sure that you commit and push all changed documents and your Git pane is co
 
 6.  In a single pipeline, filter the `nobel_living_science` data frame for laureates who won their prize in the US, but were born outside of the US, and then create a frequency table (with the `count()` function) for their birth country (`born_country`) and arrange the resulting data frame in descending order of number of observations for each country. Which country is the most common?
 
+```{r freq-table}
+
+nobel_living_science |>
+  filter(country_us == "USA" & born_country_us == "Other") |>
+  count(born_country) |>
+  arrange(desc(n))
+```
+
 ::: render-commit-push
 Now is a good time to render, commit, and push.
 Make sure that you commit and push all changed documents and your Git pane is completely empty before proceeding.
