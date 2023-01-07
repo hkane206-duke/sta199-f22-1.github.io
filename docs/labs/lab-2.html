@@ -416,7 +416,7 @@ Important
 <section id="get-to-know-your-data" class="level2">
 <h2 class="anchored" data-anchor-id="get-to-know-your-data">Get to know your data</h2>
 <ol type="1">
-<li>How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent?</li>
+<li>How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent? There are r nrow(nobel) observations, and r ncol(nobel) variables in the dataset. (I have no idea why inline code is not working)</li>
 </ol>
 <p>There are some observations in this dataset that we will exclude from our analysis to match the Buzzfeed results.</p>
 <ol start="2" type="1">
@@ -456,6 +456,19 @@ Important
 <li>Flip the coordinates so the bars are horizontal, not vertical.</li>
 </ul></li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nobel_living_science, <span class="fu">aes</span>(<span class="at">y =</span> country_us)) <span class="sc">+</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>category) <span class="sc">+</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Count"</span>, <span class="at">y =</span> <span class="st">"Country (US/Not US)"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Are Nobel Laureates from the US?"</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lab-2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The Buzzfeed article’s claims are supported by the data.</p>
 <div class="render-commit-push">
 <p>Now is a good time to render, commit, and push. Make sure that you commit and push all changed documents and your Git pane is completely empty before proceeding.</p>
 <p><br></p>

@@ -94,7 +94,7 @@ In these cases the variables below reflect a different name than their counterpa
 
 ## Get to know your data
 
-1.  How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent? There are `nrow(nobel)` observations, and `ncol(nobel)` variables in the dataset.
+1.  How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent? There are r nrow(nobel) observations, and r ncol(nobel) variables in the dataset. (I have no idea why inline code is not working)
 
 There are some observations in this dataset that we will exclude from our analysis to match the Buzzfeed results.
 
@@ -153,6 +153,19 @@ This means you'll need to define this data frame in your Quarto document, even t
     -   Your visualization should be faceted by category.
     -   For each facet you should have two bars, one for winners in the US and one for Other.
     -   Flip the coordinates so the bars are horizontal, not vertical.
+
+```{r}
+
+ggplot(nobel_living_science, aes(y = country_us)) + 
+  geom_bar() +
+  facet_wrap(~category) + 
+  labs(
+    x = "Count", y = "Country (US/Not US)",
+    title = "Are Nobel Laureates from the US?"
+  )
+```
+
+The Buzzfeed article's claims are supported by the data.
 
 ::: render-commit-push
 Now is a good time to render, commit, and push.
