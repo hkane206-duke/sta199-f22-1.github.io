@@ -223,33 +223,20 @@ hotels |>
 **Stretch goal:** If you finish the above task before time is up, change the y-axis label so the values are shown with dollar signs, e.g. \$80 instead of 80.
 You will want to use a function from the **scales** package, see <https://scales.r-lib.org/reference/index.html> for inspiration and help.
 
-```{r}
+```{r fig.height = 2.5, fig.width = 5}
 #| label: hotels-plot-improve
 
 hotels |>
   group_by(hotel, arrival_date_month) |>
   summarize(mean_adr = mean(adr, na.rm = TRUE), .groups = "drop") |>
-  mutate(arrival_month_num = case_when(
-    arrival_date_month == "January" ~ 1,
-    arrival_date_month == "February" ~ 2,
-    arrival_date_month == "March" ~ 3,
-    arrival_date_month == "April" ~ 4,
-    arrival_date_month == "May" ~ 5,
-    arrival_date_month == "June" ~ 6,
-    arrival_date_month == "July" ~ 7,
-    arrival_date_month == "August" ~ 8,
-    arrival_date_month == "September" ~ 9,
-    arrival_date_month == "October" ~ 10,
-    arrival_date_month == "November" ~ 11,
-    arrival_date_month == "December" ~ 12
-  )) |>
-  arrange(arrival_month_num) |>
+  mutate(arrival_date_month = factor(arrival_date_month, levels = month.name)) |>
+  arrange(arrival_date_month) |>
   ggplot(aes(x = arrival_date_month, 
-             y = mean_adr, 
-             group = hotel, 
-             color = hotel)) +
+             y = mean_adr,
+             group = hotel,
+             color = hotel)) + 
   geom_line() + 
-  theme_minimal() +
+  theme_minimal() + 
   labs(
     x = "Arrival month", y = "Mean ADR (average daily rate)",
     title = "Comparison of resort and city hotel prices across months", 
