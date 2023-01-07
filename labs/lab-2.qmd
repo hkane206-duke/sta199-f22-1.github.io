@@ -94,7 +94,7 @@ In these cases the variables below reflect a different name than their counterpa
 
 ## Get to know your data
 
-1.  How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent?
+1.  How many observations and how many variables are in the dataset? Use inline code to answer this question. What does each row represent? There are `nrow(nobel)` observations, and `ncol(nobel)` variables in the dataset.
 
 There are some observations in this dataset that we will exclude from our analysis to match the Buzzfeed results.
 
