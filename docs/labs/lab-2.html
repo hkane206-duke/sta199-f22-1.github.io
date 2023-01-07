@@ -479,6 +479,21 @@ Important
 <ol start="4" type="1">
 <li>Create a new variable called <code>born_country_us</code> in <code>nobel_living_science</code> that has the value <code>"USA"</code> if the laureate is born in the US, and <code>"Other"</code> otherwise. How many of the winners are born in the US?</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nobel_living_science <span class="ot">&lt;-</span> nobel_living_science <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">born_country_us =</span> <span class="fu">if_else</span>(born_country_original <span class="sc">==</span> <span class="st">"USA"</span>, <span class="st">"USA"</span>, <span class="st">"Other"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(nobel_living_science, born_country_us)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  born_country_us     n
+  &lt;chr&gt;           &lt;int&gt;
+1 Other             123
+2 USA               105</code></pre>
+</div>
+</div>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -503,9 +518,37 @@ Note
 <li>Your final visualization should contain a facet for each category.</li>
 <li>Within each facet, there should be two bars for whether the laureate won the award in the US or not.</li>
 <li>Each bar should have segments for whether the laureate was born in the US or not.</li>
-</ul>
-<p>Which of these visualizations is a better fit for answering the following question: “Do the data appear to support Buzzfeed’s claim that of those US-based Nobel laureates, many were born in other countries?” First, state which plot you’re using to answer the question. Then, answer the question, explaining your reasoning in 1-2 sentences.</p></li>
+</ul></li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nobel_living_science, <span class="fu">aes</span>(<span class="at">y =</span> country_us, <span class="at">fill =</span> born_country_us)) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"stack"</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>category) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Count"</span>, <span class="at">y =</span> <span class="st">"Country (US/Not US)"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Are Nobel Laureates from the US?"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Born in US?"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lab-2_files/figure-html/born-us-freq-bar-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nobel_living_science, <span class="fu">aes</span>(<span class="at">y =</span> country_us, <span class="at">fill =</span> born_country_us)) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>category) <span class="sc">+</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Count"</span>, <span class="at">y =</span> <span class="st">"Country (US/Not US)"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Are Nobel Laureates from the US?"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Born in US?"</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lab-2_files/figure-html/born-us-rel-bar-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Which of these visualizations is a better fit for answering the following question: “Do the data appear to support Buzzfeed’s claim that of those US-based Nobel laureates, many were born in other countries?” First, state which plot you’re using to answer the question. Then, answer the question, explaining your reasoning in 1-2 sentences.</p>
+<p>The relative frequency bar plot better shows the split between laureates born in the US and not born in the US. There are many laureates from the US that were not born in the US, but the majority of US laureates were born in the US.</p>
 <div class="render-commit-push">
 <p>Now is a good time to render, commit, and push. Make sure that you commit and push all changed documents and your Git pane is completely empty before proceeding.</p>
 <p><br></p>

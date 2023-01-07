@@ -178,6 +178,16 @@ Make sure that you commit and push all changed documents and your Git pane is co
 
 4.  Create a new variable called `born_country_us` in `nobel_living_science` that has the value `"USA"` if the laureate is born in the US, and `"Other"` otherwise. How many of the winners are born in the US?
 
+```{r born-country-us}
+
+nobel_living_science <- nobel_living_science |>
+  mutate(
+    born_country_us = if_else(born_country_original == "USA", "USA", "Other")
+  )
+
+count(nobel_living_science, born_country_us)
+```
+
 ::: callout-note
 You should be able to ~~cheat~~ borrow from code you used earlier to create the `country_us` variable.
 :::
@@ -195,8 +205,36 @@ You should be able to ~~cheat~~ borrow from code you used earlier to create the 
     -   Within each facet, there should be two bars for whether the laureate won the award in the US or not.
     -   Each bar should have segments for whether the laureate was born in the US or not.
 
-    Which of these visualizations is a better fit for answering the following question: "Do the data appear to support Buzzfeed's claim that of those US-based Nobel laureates, many were born in other countries?" First, state which plot you're using to answer the question.
-    Then, answer the question, explaining your reasoning in 1-2 sentences.
+```{r born-us-freq-bar}
+
+ggplot(nobel_living_science, aes(y = country_us, fill = born_country_us)) + 
+  geom_bar(position = "stack") +
+  facet_wrap(~category) + 
+  labs(
+    x = "Count", y = "Country (US/Not US)",
+    title = "Are Nobel Laureates from the US?",
+    fill = "Born in US?"
+  )
+```
+
+```{r born-us-rel-bar}
+
+ggplot(nobel_living_science, aes(y = country_us, fill = born_country_us)) + 
+  geom_bar(position = "fill") +
+  facet_wrap(~category) + 
+  labs(
+    x = "Count", y = "Country (US/Not US)",
+    title = "Are Nobel Laureates from the US?",
+    fill = "Born in US?"
+  ) + 
+  theme(axis.ticks.x = element_blank())
+```
+
+Which of these visualizations is a better fit for answering the following question: "Do the data appear to support Buzzfeed's claim that of those US-based Nobel laureates, many were born in other countries?" First, state which plot you're using to answer the question.
+Then, answer the question, explaining your reasoning in 1-2 sentences.
+
+The relative frequency bar plot better shows the split between laureates born in the US and not born in the US.
+There are many laureates from the US that were not born in the US, but the majority of US laureates were born in the US.
 
 ::: render-commit-push
 Now is a good time to render, commit, and push.
