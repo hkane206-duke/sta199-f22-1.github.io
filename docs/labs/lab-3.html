@@ -386,12 +386,25 @@ Important
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>country_inflation <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/country-inflation.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>country_inflation |&gt; pivot_longer(</p>
+<p>cols = -country,</p>
+<p>names_to = “country”,</p>
+<p>values_to = c(“year”, “annual_inflation”),</p>
+<p>values_sep =</p>
+<p>)</p>
 <ol type="1">
-<li><p>What does each row of the <code>country_inflation</code> dataset represent? What are the columns in the dataset and what do they represent?</p></li>
-<li><p>Reshape (pivot) <code>country_inflation</code> such that each row represents a country/year combination, with columns <code>country</code>, <code>year</code>, and <code>annual_inflation</code>. Make sure that <code>annual_inflation</code> is a numeric variable. Save the result as a new data frame – you should give it a concise and informative name.</p></li>
+<li><p>What does each row of the <code>country_inflation</code> dataset represent? What are the columns in the dataset and what do they represent? Each row is a year, each column is a country</p></li>
+<li><p>Reshape (pivot) <code>country_inflation</code> such that each row represents a country/year combination, with columns <code>country</code>, <code>year</code>, and <code>annual_inflation</code>. Make sure that <code>annual_inflation</code> is a numeric variable. Save the result as a new data frame – you should give it a concise and informative name.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>country_inflation_tidy <span class="ot">&lt;-</span> country_inflation <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cols =</span> <span class="sc">-</span>country,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_to =</span> <span class="st">"year"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_to =</span> <span class="st">"annual_inflation"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
 <li><p>Create a vector called <code>countries_of_interest</code> which contains the names of countries you want to visualize the inflation rates for over the years. For example, if these countries are Türkiye and United States, you can express this as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>countries_of_interest <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Türkiye"</span>, <span class="st">"United States"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>countries_of_interest <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Türkiye"</span>, <span class="st">"United States"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Your <code>countries_of_interest</code> should consist of no more than five countries. Make sure that the spelling of your countries matches how they appear in the dataset.</p></li>
 <li><p>In a single pipeline, filter your reshaped dataset to include only the <code>countries_of_interest</code> from the previous exercise and create a plot of annual inflation vs.&nbsp;year for these countries. Then, in a few sentences, state why you chose these countries and describe the patterns you observe in the plot, particularly focusing on anything you find surprising or not surprising, based on your knowledge (or lack thereof) of these countries economies.</p>
@@ -402,9 +415,9 @@ Important
 <li><p>The plot should have an appropriate title (and optionally a subtitle).</p></li>
 <li><p>Axis labels for annual inflation should be shown in percentages (e.g., 25% not 25). <em>Hint:</em> The <code>label_percent()</code> function from the scales package will be useful.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(...) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  ... <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">label =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(...) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  ... <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">label =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 </ul></li>
 </ol>
@@ -429,8 +442,8 @@ Important
 </ul>
 <p>Let’s load both of these files.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>us_inflation <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/us-inflation.csv"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cpi_divisions <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/cpi-divisions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>us_inflation <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/us-inflation.csv"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cpi_divisions <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/cpi-divisions.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="5" type="1">
 <li>Add a column to the <code>us_inflation</code> dataset called <code>description</code> which has the CPI division description that matches the <code>cpi_division_id</code>, by joining the two datasets.
@@ -446,12 +459,12 @@ Important
 <li><p>Axes and legend should be properly labeled.</p></li>
 <li><p>If your legend has labels that are too long, you can try moving the legend to the bottom and stack the labels vertically. <em>Hint:</em> The <code>legend.position</code> and <code>legend.direction</code> arguments of the <code>theme()</code> functions will be useful.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(...) <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  ... <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>, </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.direction =</span> <span class="st">"vertical"</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(...) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  ... <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.direction =</span> <span class="st">"vertical"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p>The plot should have an appropriate title (and optionally a subtitle).</p></li>
 <li><p>Axis labels for annual inflation should be shown in percentages (e.g., 25% not 25).</p></li>

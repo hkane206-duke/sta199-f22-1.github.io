@@ -64,12 +64,34 @@ For this part of the analysis you will work with inflation data from various cou
 country_inflation <- read_csv("data/country-inflation.csv")
 ```
 
+country_inflation \|\> pivot_longer(
+
+cols = -country,
+
+names_to = "country",
+
+values_to = c("year", "annual_inflation"),
+
+values_sep =
+
+)
+
 1.  What does each row of the `country_inflation` dataset represent?
     What are the columns in the dataset and what do they represent?
+    Each row is a year, each column is a country
 
 2.  Reshape (pivot) `country_inflation` such that each row represents a country/year combination, with columns `country`, `year`, and `annual_inflation`.
     Make sure that `annual_inflation` is a numeric variable.
     Save the result as a new data frame -- you should give it a concise and informative name.
+
+    ```{r pivot-data}
+
+    country_inflation_tidy <- country_inflation |> pivot_longer(
+      cols = -country,
+      names_to = "year",
+      values_to = "annual_inflation"
+    )
+    ```
 
 3.  Create a vector called `countries_of_interest` which contains the names of countries you want to visualize the inflation rates for over the years.
     For example, if these countries are Türkiye and United States, you can express this as follows:
