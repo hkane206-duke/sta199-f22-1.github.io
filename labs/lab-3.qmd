@@ -156,9 +156,22 @@ cpi_divisions <- read_csv("data/cpi-divisions.csv")
     -   Determine which type of join is the most appropriate one and use that.
 
     -   Note that the two datasets don't have a common variable.
-        Review the help for the join functions to determine how to use the `by` argument when the names of the variables that the datasets should be joined by are different.
-6.  Create a vector called `divisions_of_interest` which contains the descriptions or IDs of CPI divisions you want to visualize. Your `divisions_of_interest` should consist of no more than five divisions. If you're using descriptions, make sure that the spelling of your divisions matches how they appear in the dataset.
-7.  In a single pipeline, filter your joined dataset to include only the `divisions_of_interest` from the previous exercise and create a plot of annual inflation vs. year for these divisions. Then, in a few sentences, state why you chose these divisions and describe the patterns you observe in the plot, particularly focusing on anything you find surprising or not surprising, based on your knowledge (or lack thereof) of inflation rates in the US over the last decade.
+        Review the help for the join functions to determine how to use the `by` argument when the names of the variables that the datasets should be joined by are different
+
+```{r}
+
+us_inflation <- us_inflation |> 
+  left_join(cpi_divisions, by = c("cpi_division_id" = "id"))
+```
+
+5.  Create a vector called `divisions_of_interest` which contains the descriptions or IDs of CPI divisions you want to visualize. Your `divisions_of_interest` should consist of no more than five divisions. If you're using descriptions, make sure that the spelling of your divisions matches how they appear in the dataset.
+
+```{r div-interest}
+
+divisions_of_interest = c(6, 8, 9, 10)
+```
+
+5.  In a single pipeline, filter your joined dataset to include only the `divisions_of_interest` from the previous exercise and create a plot of annual inflation vs. year for these divisions. Then, in a few sentences, state why you chose these divisions and describe the patterns you observe in the plot, particularly focusing on anything you find surprising or not surprising, based on your knowledge (or lack thereof) of inflation rates in the US over the last decade.
     -   Data should be represented with points as well as lines connecting the points for each division.
 
     -   Each division should be represented by a different color.
@@ -168,20 +181,29 @@ cpi_divisions <- read_csv("data/cpi-divisions.csv")
     -   If your legend has labels that are too long, you can try moving the legend to the bottom and stack the labels vertically.
         *Hint:* The `legend.position` and `legend.direction` arguments of the `theme()` functions will be useful.
 
-        ```{r}
-        #| eval: false
-
-        ggplot(...) +
-          ... +
-          theme(
-            legend.position = "bottom", 
-            legend.direction = "vertical"
-          )
-        ```
-
     -   The plot should have an appropriate title (and optionally a subtitle).
 
     -   Axis labels for annual inflation should be shown in percentages (e.g., 25% not 25).
+
+```{r}
+#| eval: false
+
+us_inflation |>
+  filter(cpi_division_id %in% divisions_of_interest) |>
+  ggplot(aes(x = year, y = annual_inflation, 
+             group = description, color = description)) +
+  geom_point() + geom_line() +
+  labs(
+    x = "Year", y = "Annual Inflation",
+    title = "Annual Inflation in Sectors of Interest",
+    color = "Sector"
+  ) + 
+  theme(
+    legend.position = "bottom",
+    legend.direction = "vertical"
+  )
+  scale_y_continuous(label = label_percent(scale = 1))
+```
 
 ::: render-commit-push
 If you haven't yet done so since Part 1, now is a good time to render, commit, and push.
