@@ -28,9 +28,9 @@ library(readxl)
     Confirm that this new object appears in your Environment tab.
 
     ```{r}
-    #| label: add-label-here-1
+    #| label: load-data
      
-    # add code here
+    nobel <- read_csv("data/nobel.csv")
     ```
 
 -   **Your turn (4 minutes):** Split the data into two -- nobel laureates in STEM fields (`category` should be Physics, Medicine, Chemistry, or Economics) and nobel laureates in non-STEM fields.
@@ -39,27 +39,28 @@ library(readxl)
     Confirm that these new objects appear in your Environment tab and that the sum of the number of observations in the two new data frames add to the number of observations in the original data frame.
 
     ```{r}
-    #| label: add-label-here-2
+    #| label: split-stem-nonstem
 
     # define stem fields
-
-    # add code here
+    stem_fields <- c("Physics", "Medicine", "Chemistry", "Economics")
 
     # stem laureates
-
-    # add code here
+    nobel_stem <- nobel |>
+      filter(category %in% stem_fields)
 
     # non-steam laureates
 
-    # add code here
+    nobel_non_stem <- nobel |>
+      filter(!(category %in% stem_fields))
     ```
 
 -   **Demo:** Write out the two new datasets you created into the `data` folder:
 
     ```{r}
-    #| label: add-label-here-3
+    #| label: write-csv
 
-    # add code here
+    write_csv(nobel_stem, file = "data/nobel-stem.csv")
+    write_csv(nobel_non_stem, file = "data/nobel-nonstem.csv")
     ```
 
 ## Sales
@@ -73,9 +74,14 @@ Sales data are stored in an Excel file that looks like the following:
     ![](images/sales-1.png){width="300"}
 
     ```{r}
-    #| label: add-label-here-4
+    #| label: read-sales
 
-    # add code here
+    sales <- read_excel(
+      "data/sales.xlsx", 
+      skip = 3,
+      col_names = c("id", "n"))
+
+    sales
     ```
 
 -   **Demo - Stretch goal:** Manipulate the sales data such such that it looks like the following.
@@ -85,7 +91,7 @@ Sales data are stored in an Excel file that looks like the following:
     ```{r}
     #| label: add-label-here-5
 
-    # add code here
+
     ```
 
 -   **Question:** Why should we bother with writing code for reading the data in by skipping columns and assigning variable names as well as cleaning it up in multiple steps instead of opening the Excel file and editing the data in there to prepare it for a clean import?
