@@ -105,18 +105,17 @@ country_inflation <- read_csv("data/country-inflation.csv")
     -   Axis labels for annual inflation should be shown in percentages (e.g., 25% not 25).
         *Hint:* The `label_percent()` function from the scales package will be useful.
 
-        ```{r}
-        #| eval: false
+```{r}
+#| eval: false
 
-        country_inflation_tidy |>
-          filter(country %in% countries_of_interest) |>
-          ggplot(aes(x = year, y = annual_inflation, 
-                     group = country, color = country)) +
-          geom_point() + geom_line() +
-          # NEED TO FIGURE THIS OUT LATER
-          scale_x_discrete(guide = guide_axis(n.dodge = 3)) +
-          scale_y_continuous(label = label_percent(scale = 1))
-        ```
+country_inflation_tidy |>
+  filter(country %in% countries_of_interest) |>
+  ggplot(aes(x = year, y = annual_inflation, 
+             group = country, color = country)) +
+  geom_point() + geom_line() +
+  scale_x_discrete(breaks = seq(1993, 2021, 3)) +
+  scale_y_continuous(label = label_percent(scale = 1))
+```
 
 ::: render-commit-push
 If you haven't yet done so, now is a good time to render, commit, and push.
