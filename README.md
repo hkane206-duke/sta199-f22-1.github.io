@@ -1,4 +1,6 @@
-# sta199-f22-1.github.io
+# Harrison's sta199-f22-1.github.io Repo
+
+This is the repo that I kept all of my projects working through Duke's Intro to Data Science Course. I didn't take this class, but have been working through this class on my own using publically available resources.
 
 Source code for the course website for STA 199 - Section 1 taught by Dr. Mine Çetinkaya-Rundel in Fall 2022 at Duke University.
 
